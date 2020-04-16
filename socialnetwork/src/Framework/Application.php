@@ -1,6 +1,8 @@
 <?php
 namespace Framework;
 
+use Framework\DependencyInjection\Container;
+use Framework\DependencyInjection\Support\ContainerInterface;
 use Whoops\Run as WhoopsRun;
 use Whoops\Handler\PrettyPageHandler as WhoopsPrettyPageHandler;
 
@@ -9,8 +11,11 @@ use Whoops\Handler\PrettyPageHandler as WhoopsPrettyPageHandler;
  * Class Application
  * @package Framework
 */
-class Application
+class Application extends Container
 {
+
+    /** @var Container */
+    protected $container;
 
     /**
      * $ composer search whoops
@@ -18,7 +23,11 @@ class Application
     */
     public function run()
     {
+        # Initialise Whoops
         $this->initWhoops();
+
+        # Testing Container
+        $this->testContainer();
     }
 
 
@@ -32,5 +41,37 @@ class Application
         $handler = new WhoopsPrettyPageHandler();
         $whoops->pushHandler($handler)->register();
         return $this;
+    }
+
+
+    /**
+     * Test how container working
+    */
+    private function testContainer()
+    {
+       $this->container = new Container();
+
+       # Example bind
+       // $this->container->bind('foo', 'Bar');
+       // $this->container->getBinding('foo');
+
+       # Resolves
+       $bar = $this->container->resolve('Framework\\FakeClass\\Bar');
+       \debug($bar);
+
+    }
+
+    /**
+     * Determine if given instance container is Container and return
+     * @param $container
+     * @return bool
+    */
+    public function IsContainer($container)
+    {
+       if(! is_object($container))
+       {
+           throw new \Exception('The given parameter is not object!');
+       }
+       return $container instanceof ContainerInterface;
     }
 }

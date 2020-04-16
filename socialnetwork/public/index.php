@@ -9,7 +9,7 @@ display_errors=On
 $ sudo service apache2 restart
 */
 
-
+require __DIR__.'/../functions.php';
 require_once __DIR__.'/../vendor/autoload.php';
 
 
