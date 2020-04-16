@@ -11,8 +11,11 @@ use Whoops\Handler\PrettyPageHandler as WhoopsPrettyPageHandler;
  * Class Application
  * @package Framework
 */
-class Application extends Container
+class Application
 {
+
+    /** @var Container */
+    protected $container;
 
     /**
      * $ composer search whoops
@@ -46,20 +49,20 @@ class Application extends Container
     */
     private function testContainer()
     {
+       $this->container = new Container();
 
        # Example bind
        // $this->container->bind('foo', 'Bar');
        // $this->container->getBinding('foo');
 
        # Resolves (Autowiring)
-       // $bar = $this->resolve('Framework\\FakeClass\\Bar');
-       // \debug($bar);
+       $bar = $this->container->resolve('Framework\\FakeClass\\Bar');
+       \debug($bar);
 
        # Singleton
-       $this->singleton('foo', \Framework\FakeClass\Foo::class);
-       $this->resolve('foo');
-       $this->resolve('foo');
-       $this->resolve('foo');
+       $this->container->singleton('foo', 'Foo');
+
+       
 
     }
 

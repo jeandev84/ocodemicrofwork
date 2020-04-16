@@ -15,14 +15,28 @@ class Container implements ContainerInterface
     /** @var array  */
     protected $bindings = [];
 
+    /** @var array  */
+    protected $instances = [];
+
+
+    /**
+     * @param $key
+     * @param $value
+     * @param bool $singleton
+    */
+    public function bind($key, $value, $singleton = false)
+    {
+       $this->bindings[$key] = compact('value', 'singleton');
+    }
+
 
     /**
      * @param $key
      * @param $value
     */
-    public function bind($key, $value)
+    public function singleton($key, $value)
     {
-       $this->bindings[$key] = $value;
+        return $this->bind($key, $value, true);
     }
 
 
@@ -40,6 +54,39 @@ class Container implements ContainerInterface
     }
 
 
+    public function isSingleton($key)
+    {
+        $binding = $this->getBinding($key);
+
+        if($binding === null)
+        {
+            return false;
+        }
+
+        /* return $binding['singleton'] === true; */
+        return $binding['singleton'];
+    }
+
+
+    /**
+     * @param $key
+    */
+    public function singletonResolved($key)
+    {
+        return array_key_exists($key, $this->instances);
+    }
+
+
+    /**
+     * @param $key
+     * @return mixed|null
+    */
+    public function getSingletonInstance($key)
+    {
+        return $this->singletonResolved($key) ? $this->instances[$key] : null;
+    }
+
+
     /**
      * @param $key
      * @param array $args
@@ -53,22 +100,47 @@ class Container implements ContainerInterface
             $class = $key;
         }
 
-        return $this->buildObject($class);
+        if($this->isSingleton($key) && $this->singletonResolved($key))
+        {
+             return $this->getSingletonInstance($key);
+        }
+
+        $object = $this->buildObject($class, $args);
+
+        return $this->prepareObject($key, $object);
     }
 
+
     /**
-     * @param $className
+     * @param $key
+     * @param $object
+     * @return
+    */
+    protected function prepareObject($key, $object)
+    {
+        if($this->isSingleton($key))
+        {
+            $this->instances[$key] = $object;
+        }
+
+        return $object;
+    }
+
+
+    /**
+     * @param $class
      * @param array $args
      * @throws \ReflectionException
     */
-    protected function buildObject($className, array $args = [])
+    protected function buildObject($class, array $args = [])
     {
+        $className = $class['value'];
         $reflector = new ReflectionClass($className);
 
         if(! $reflector->isInstantiable())
         {
             throw new ClassIsNotInstantiableException(
-                sprintf('Class [%s] is not resolvable dependency.', $className)
+                sprintf('Class [%s] is not resolvable dependency.', $class)
             );
         }
 
@@ -77,30 +149,44 @@ class Container implements ContainerInterface
             $constructor = $reflector->getConstructor();
             $dependencies = $constructor->getParameters();
 
-            foreach ($dependencies as $dependency)
-            {
-                 /* echo $dependency; */
-                 if($dependency->isOptional()) continue;
-                 if($dependency->isArray()) continue;
-
-                /* __construct(Foo $foo, $name) */
-                 $class = $dependency->getClass();
-                 if($class === null) continue;
-
-                 if(get_class($this) === $class->name)
-                 {
-                     array_unshift($args, $this);
-                     continue;
-                 }
-
-                 array_unshift($args, $this->resolve($class->name));
-            }
+            $args = $this->buildDependencies($args, $dependencies, $class);
         }
 
         $object = $reflector->newInstanceArgs($args);
 
         return $object;
     }
+
+    /**
+     * @param $args
+     * @param $dependencies
+     * @param $class
+     * @return mixed
+    */
+    protected function buildDependencies($args, $dependencies, $class)
+    {
+        foreach ($dependencies as $dependency)
+        {
+            /* echo $dependency; */
+            if($dependency->isOptional()) continue;
+            if($dependency->isArray()) continue;
+
+            /* __construct(Foo $foo, $name) */
+            $class = $dependency->getClass();
+            if($class === null) continue;
+
+            if(get_class($this) === $class->name)
+            {
+                array_unshift($args, $this);
+                continue;
+            }
+
+            array_unshift($args, $this->resolve($class->name));
+        }
+
+        return $args;
+    }
+
 
     public function has($key)
     {
