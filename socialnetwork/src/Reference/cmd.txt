@@ -1,0 +1,5 @@
+# Search package
+$ composer search whoops
+
+# Install whoops
+$ composer require filp/whoops
