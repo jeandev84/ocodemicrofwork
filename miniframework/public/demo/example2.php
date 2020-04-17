@@ -16,35 +16,35 @@ $container['errorHandler'] = function () {
     return function ($response) {
         /* dump($response, true); */
         return $response->setBody('Page not found')
-                        ->withStatus(404);
+            ->withStatus(404);
     };
 };
 
 
 $container['config'] = function () {
-  return [
-      'db_driver' => 'mysql',
-      'db_host'   => 'localhost',
-      'db_name'   => 'ocode_mini_framework',
-      'db_user'   => 'root',
-      'db_pass' => '',
-      'db_charset' => 'utf8'
-  ];
+    return [
+        'db_driver' => 'mysql',
+        'db_host'   => 'localhost',
+        'db_name'   => 'ocode_mini_framework',
+        'db_user'   => 'root',
+        'db_pass' => '',
+        'db_charset' => 'utf8'
+    ];
 };
 
 
 $container['db'] = function ($c) {
 
-   return new \PDO(
-       sprintf('%s:host=%s;dbname=%s;charset=%s',
-       $c->config['db_driver'],
-       $c->config['db_host'],
-       $c->config['db_name'],
-       $c->config['db_charset']
-       ),
-       $c->config['db_user'],
-       $c->config['db_pass']
-   );
+    return new \PDO(
+        sprintf('%s:host=%s;dbname=%s;charset=%s',
+            $c->config['db_driver'],
+            $c->config['db_host'],
+            $c->config['db_name'],
+            $c->config['db_charset']
+        ),
+        $c->config['db_user'],
+        $c->config['db_pass']
+    );
 };
 
 
@@ -80,8 +80,6 @@ $app->get('/', [new App\Controllers\DemoController($container->db), 'index']);
 
 
 $app->get('/', [new App\Controllers\HomeController($container->db), 'index']);
-$app->get('/users', [new App\Controllers\UserController($container->db), 'index']);
-
 
 /*
 $app->get('/home', function ($response) {

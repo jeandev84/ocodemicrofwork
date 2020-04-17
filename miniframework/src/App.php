@@ -125,7 +125,7 @@ class App
 
     /**
      * @param $response
-    */
+   */
    protected function respond($response)
    {
         /* dump($response, true); */
@@ -136,6 +136,21 @@ class App
             return;
         }
 
+        header(sprintf(
+            'HTTP/%s %s %s',
+            '1.1',
+            $response->getStatusCode(),
+            ''
+        ));
+
+        # get headers
+        /* debug($response->getHeaders()); */
+        foreach ($response->getHeaders() as $header)
+        {
+             header($header[0]. ': '. $header[1]);
+        }
+
+        # show body
         echo $response->getBody();
    }
 }
