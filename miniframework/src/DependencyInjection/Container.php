@@ -20,6 +20,18 @@ class Container implements \ArrayAccess
 
 
     /**
+     * Container constructor.
+     * @param array $items
+     */
+    public function __construct(array $items = [])
+    {
+        foreach ($items as $key => $item)
+        {
+            $this->offsetSet($key, $item);
+        }
+    }
+
+    /**
      * Set the item
      * @param mixed $offset
      * @param mixed $value
