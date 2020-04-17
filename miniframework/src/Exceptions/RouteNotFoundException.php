@@ -1,10 +1,12 @@
 <?php
-
-
 namespace Framework\Exceptions;
 
 
-class RouteNotFoundException
+/**
+ * Class RouteNotFoundException
+ * @package Framework\Exceptions
+ */
+class RouteNotFoundException extends \Exception
 {
 
 }

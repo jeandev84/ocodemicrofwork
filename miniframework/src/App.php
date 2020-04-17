@@ -3,6 +3,8 @@ namespace Framework;
 
 
 use Framework\DependencyInjection\Container;
+use Framework\Exceptions\RouteNotFoundException;
+use Framework\Http\Response;
 use Framework\Routing\Router;
 
 
@@ -24,6 +26,9 @@ class App
        $this->container = new Container([
            'router' => function () {
              return new Router();
+           },
+           'response' => function () {
+              return new Response();
            }
        ]);
    }
@@ -76,17 +81,61 @@ class App
        $router = $this->container->router;
        $router->setPath($_SERVER['PATH_INFO'] ?? '/');
 
-       $response = $router->getResponse(); /* debug($response); */
+       try {
 
-       return $this->process($response);
+           $response = $router->getResponse();
+
+       } catch (RouteNotFoundException $e) {
+
+           if($this->container->has('errorHandler'))
+           {
+               $response = $this->container->errorHandler;
+
+           }else{
+
+               return;
+           }
+       }
+
+       /* return $this->process($response); */
+       return $this->respond($this->process($response));
    }
 
 
-   /**
+    /**
      * @param $callable
+     * @return mixed
    */
    protected function process($callable)
    {
-       return $callable();
+
+       $response = $this->container->response;
+
+       if(is_array($callable))
+       {
+           if(! is_object($callable[0])) {
+               $callable[0] = new $callable[0];
+           }
+           return call_user_func($callable, $response);
+       }
+
+       return $callable($response);
+   }
+
+
+    /**
+     * @param $response
+    */
+   protected function respond($response)
+   {
+        /* dump($response, true); */
+
+        if(! $response instanceof Response)
+        {
+            echo $response;
+            return;
+        }
+
+        echo $response->getBody();
    }
 }

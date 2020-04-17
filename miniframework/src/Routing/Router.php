@@ -3,6 +3,7 @@ namespace Framework\Routing;
 
 
 use Framework\Exceptions\MethodNotAllowedException;
+use Framework\Exceptions\RouteNotFoundException;
 
 /**
  * Class Router
@@ -49,9 +50,16 @@ class Router
    */
    public function getResponse()
    {
+
+       if(! isset($this->routes[$this->path]))
+       {
+           throw new RouteNotFoundException(
+               sprintf('No route registred for (%s)', $this->path)
+           );
+       }
+
        if(! in_array($_SERVER['REQUEST_METHOD'], $this->methods[$this->path]))
        {
-           /* die('Method not allowed'); */
            throw new MethodNotAllowedException();
        }
 
