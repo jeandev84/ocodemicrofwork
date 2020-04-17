@@ -74,12 +74,13 @@ $app->get('/', [new App\Controllers\HomeController(), 'index']);
 Example 2:
 $app->get('/', [App\Controllers\HomeController::class, 'index']);
 $app->get('/home', [App\Controllers\HomeController::class, 'home']);
-
 $app->get('/', [new App\Controllers\DemoController($container->db), 'index']);
+$app->get('/', [new App\Controllers\HomeController($container->db), 'index']);
+$app->get('/users', [new App\Controllers\UserController($container->db), 'index']);
 */
 
 
-$app->get('/', [new App\Controllers\HomeController($container->db), 'index']);
+$app->get('/', [new App\Controllers\HomeController(), 'index']);
 $app->get('/users', [new App\Controllers\UserController($container->db), 'index']);
 
 
