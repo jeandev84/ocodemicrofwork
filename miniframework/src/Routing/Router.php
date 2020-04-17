@@ -2,6 +2,8 @@
 namespace Framework\Routing;
 
 
+use Framework\Exceptions\MethodNotAllowedException;
+
 /**
  * Class Router
  * @package Framework\Routing
@@ -17,6 +19,10 @@ class Router
    protected $routes = [];
 
 
+   /** @var array  */
+   protected $methods = [];
+
+
    /**
      * Set a current path
      * @param string $path
@@ -26,13 +32,15 @@ class Router
        $this->path = $path;
    }
 
-   /**
+    /**
      * @param $uri
      * @param $handler
-    */
-   public function addRoute($uri, $handler)
+     * @param array $methods
+   */
+   public function addRoute($uri, $handler, array $methods = ['GET'])
    {
        $this->routes[$uri] = $handler;
+       $this->methods[$uri] = $methods;
    }
 
 
@@ -41,6 +49,12 @@ class Router
    */
    public function getResponse()
    {
+       if(! in_array($_SERVER['REQUEST_METHOD'], $this->methods[$this->path]))
+       {
+           /* die('Method not allowed'); */
+           throw new MethodNotAllowedException();
+       }
+
        return $this->routes[$this->path];
    }
 }

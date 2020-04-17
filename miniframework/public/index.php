@@ -42,9 +42,17 @@ $app->get('/', function () {
 });
 
 
-$app->get('/users', function () {
+$app->post('/signup', function () {
     echo  'Users';
 });
 
 
+
+$app->map('/users', function () {
+    echo  'Users';
+}, ['GET', 'POST']);
+
+
+
+# Run application
 $app->run();
