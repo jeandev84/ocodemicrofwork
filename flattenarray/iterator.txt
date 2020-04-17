@@ -1,0 +1,56 @@
+<?php
+
+# Demo
+$arrayProviders = [
+    'name' => [
+        'Your name is required',
+        'Your name cannot contain any numbers',
+        'key' => [
+            'Something'
+        ]
+    ],
+    'dob' => [
+        'Your date of bith is required'
+    ],
+    'password' => [
+        'Your password must be 6 characters or more',
+        'Your password is not strong enough'
+    ],
+    'Something else'
+];
+
+$flattened = new RecursiveArrayIterator($arrayProviders);
+
+debug($flattened);
+/*
+RecursiveArrayIterator Object
+(
+    [storage:ArrayIterator:private] => Array
+        (
+            [name] => Array
+                (
+                    [0] => Your name is required
+                    [1] => Your name cannot contain any numbers
+                    [key] => Array
+                        (
+                            [0] => Something
+                        )
+
+                )
+
+            [dob] => Array
+                (
+                    [0] => Your date of bith is required
+                )
+
+            [password] => Array
+                (
+                    [0] => Your password must be 6 characters or more
+                    [1] => Your password is not strong enough
+                )
+
+            [0] => Something else
+        )
+
+)
+ */
