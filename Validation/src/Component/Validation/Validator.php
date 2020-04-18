@@ -5,6 +5,7 @@ namespace Framework\Component\Validation;
 use Framework\Component\Validation\Errors\ErrorBag;
 use Framework\Component\Validation\Rules\Contracts\Rule;
 
+
 /**
  * Class Validator
  * @package Framework\Component\Validation
@@ -22,6 +23,10 @@ class Validator
 
     /** @var array  */
     protected $errors = [];
+
+
+    /** @var array  */
+    protected $ruleMap = [];
 
 
     /**
@@ -53,7 +58,8 @@ class Validator
     {
         foreach ($this->rules as $field => $rules)
         {
-            foreach ($rules as $rule)
+            /* dump($this->resolveRules($rules)); */
+            foreach ($this->resolveRules($rules) as $rule)
             {
                  $this->validateRule($field, $rule);
             }
@@ -62,6 +68,55 @@ class Validator
         return $this->errors->hasErrors();
     }
 
+
+    /**
+     * Resolve type of give rule 'string' or 'object'
+     *
+     * @param array $rules
+     * @return array
+     */
+    protected function resolveRules(array $rules)
+    {
+        return array_map(function ($rule) {
+
+            if(is_string($rule))
+            {
+                return $this->getRuleFromString($rule);
+            }
+
+            return $rule;
+        }, $rules);
+    }
+
+
+    /**
+     * Get Rule from string
+     *
+     * max:5
+     * between:3,4
+     *
+     * @param $rule
+     * @return mixed
+     */
+    protected function getRuleFromString($rule)
+    {
+        // get new rule from map
+        return $this->newRuleFromMap(
+            ($exploded = explode(':', $rule))[0],
+            explode(',', end($exploded))
+        );
+    }
+
+
+    /**
+     * @param $rule
+     * @param $options
+     * @return mixed
+    */
+    protected function newRuleFromMap($rule, $options)
+    {
+        return RuleMap::resolve($rule, $options);
+    }
 
     /**
      * Validate rule
@@ -106,3 +161,30 @@ class Validator
     }
 
 }
+
+/*
+function getRuleFromString($rule)
+{
+    $exploded = explode(':', $rule); // max:5
+    $rule = $exploded[0]; // max
+    $options = [end($exploded)]; // reste des valeurs
+
+    # ...$options, prend plusieurs options (take severals options)
+    return new $this->ruleMap[$rule](...$options); // ($a, $b) ..
+}
+
+function getRuleFromString($rule)
+{
+        // $rule = max:5, between:6,7
+        $exploded = explode(':', $rule);
+
+        // $rule = max, between
+        $rule = $exploded[0];
+
+        // end($exploded) => $options = [5], [6,7]
+        $options = explode(',', end($exploded));
+
+        // get new rule from map
+        return $this->newRuleFromMap($rule, $options);
+}
+*/
