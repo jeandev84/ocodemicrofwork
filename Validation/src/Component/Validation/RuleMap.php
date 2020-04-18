@@ -6,6 +6,7 @@ use Framework\Component\Validation\Rules\BetweenRule;
 use Framework\Component\Validation\Rules\EmailRule;
 use Framework\Component\Validation\Rules\MaxRule;
 use Framework\Component\Validation\Rules\RequiredRule;
+use Framework\Component\Validation\Rules\RequiredWithRule;
 
 /**
  * Class RuleMap
@@ -15,10 +16,11 @@ class RuleMap
 {
     /** @var array  */
     protected static $map = [
-        'required' => RequiredRule::class,
-        'email'    => EmailRule::class,
-        'max'      => MaxRule::class,
-        'between'  => BetweenRule::class,
+        'required'      => RequiredRule::class,
+        'required_with' => RequiredWithRule::class,
+        'email'         => EmailRule::class,
+        'max'           => MaxRule::class,
+        'between'       => BetweenRule::class,
     ];
 
 

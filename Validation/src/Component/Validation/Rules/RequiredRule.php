@@ -14,9 +14,10 @@ class RequiredRule extends Rule
     /**
      * @param $field
      * @param $value
+     * @param $data
      * @return bool
      */
-     public function passes($field, $value)
+     public function passes($field, $value, $data)
      {
          return ! empty($value);
      }

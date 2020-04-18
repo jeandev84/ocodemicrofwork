@@ -14,9 +14,10 @@ class EmailRule extends Rule
     /**
      * @param $field
      * @param $value
+     * @param $data
      * @return bool
      */
-     public function passes($field, $value)
+     public function passes($field, $value, $data)
      {
          return filter_var($value, FILTER_VALIDATE_EMAIL);
      }

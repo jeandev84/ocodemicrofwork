@@ -22,11 +22,12 @@ class Validator
 
 
     /** @var array  */
-    protected $errors = [];
+    protected static $aliases = [];
 
 
     /** @var array  */
-    protected $ruleMap = [];
+    protected $errors = [];
+
 
 
     /**
@@ -35,17 +36,56 @@ class Validator
     */
     public function __construct(array $data)
     {
-         $this->data = $data;
+         /* dump($data); */
+         $this->data = $this->extractWildcardData($data);
+         /* dump($this->data); */
          $this->errors = new ErrorBag();
+    }
+
+    /**
+     * emails.*
+     *   [ emails.0, emails.1, emails.2 ...]
+     * @param $array
+     * @param string $root
+     * @param array $results
+    */
+    protected function extractWildcardData($array, $root = '', $results = [])
+    {
+         foreach ($array as $key => $value)
+         {
+              if(is_array($value))
+              {
+                   $results = array_merge($results, $this->extractWildcardData($value, $root. $key.'.'));
+              }else{
+                   $results[$root.$key] = $value;
+              }
+         }
+
+         return $results;
     }
 
 
     /**
+     * Set rules
+     *  email key from data , may be from FORM
+     * 'email' => [
+     *   new RequiredRule(), // 'required'
+     *   new MaxRule(5), // 'max:5'
+     *   new BetweenRule(5), // 'between:5,9
+     * ]
      * @param array $rules
     */
     public function setRules(array $rules)
     {
         $this->rules = $rules;
+    }
+
+    /**
+     * @param array $aliases
+    */
+    public function setAliases(array $aliases)
+    {
+        self::$aliases = $aliases;
     }
 
 
@@ -128,10 +168,10 @@ class Validator
     {
          $value = $this->getFieldValue($field, $this->data);
 
-         if(! $rule->passes($field, $value))
+         if(! $rule->passes($field, $value, $this->data))
          {
               /* dump($rule->message($field)); */
-              $this->errors->add($field, $rule->message($field));
+              $this->errors->add($field, $rule->message(self::alias($field)));
          }
     }
 
@@ -150,6 +190,33 @@ class Validator
         return $data[$field] ?? null;
     }
 
+
+    /**
+     * Get alias of field
+     *
+     * Example:
+     * dump(Validator::alias('first_name'));
+     *
+     * @param $field
+     * @return mixed
+    */
+    public static function alias($field)
+    {
+        return self::$aliases[$field] ?? $field;
+    }
+
+
+    /**
+     * Get aliases
+     * @param $fields
+     * @return array
+    */
+    public static function aliases($fields)
+    {
+        return array_map(function ($field) {
+           return self::alias($field);
+        }, $fields);
+    }
 
     /**
      * Get errors

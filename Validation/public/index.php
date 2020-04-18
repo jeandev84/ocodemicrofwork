@@ -9,15 +9,33 @@ use Framework\Component\Validation\Validator;
 require __DIR__.'/../vendor/autoload.php';
 
 $validator = new Validator([
-    'first_name' => 'Alex'
+    //'name' => 'Kouassi',
+    'users' => [
+       [
+           'email' => 'jeanyao@ymail.com',
+           'first_name' => 'Jean'
+           /*
+           'likes' => [
+               'coding', 'reading'
+           ]
+           */
+       ],
+        [
+            'email' => 'jeanyao',
+            'first_name' => 'Brown'
+        ],
+        [
+            'email' => '',
+            'first_name' => 'Ashley'
+        ]
+    ]
 ]);
 
 
 $validator->setRules([
-   'first_name' => [
+   'users.*.email' => [
        'required',
-       'max:5', #or new MaxRule(5)
-       'between:5,10', # or (new BetweenRule(5, 10))
+       'email'
    ]
 ]);
 

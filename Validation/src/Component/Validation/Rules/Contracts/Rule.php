@@ -11,9 +11,10 @@ abstract class Rule
     /**
      * @param string $field
      * @param $value
+     * @param $data
      * @return bool
     */
-    abstract public function passes($field, $value);
+    abstract public function passes($field, $value, $data);
 
 
     /**
