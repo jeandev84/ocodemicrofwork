@@ -223,6 +223,68 @@ class FrequenciesTest extends TestCase
 
 
     /**
+     * @test
+     */
+    public function canSetAtTime()
+    {
+        $frequencies = $this->frequencies();
+        $frequencies->at(12, 30);
+
+        $this->assertEquals($frequencies->expression, '30 12 * * *');
+    }
+
+
+
+    /**
+     * @test
+     */
+    public function canSetDayAndTime()
+    {
+        $frequencies = $this->frequencies();
+        $frequencies->at(12, 30)->weekends();
+
+        $this->assertEquals($frequencies->expression, '30 12 * * 6,7');
+    }
+
+
+    /**
+     * @test
+     */
+    public function canSetMonthly()
+    {
+        $frequencies = $this->frequencies();
+        $frequencies->monthly();
+
+        $this->assertEquals($frequencies->expression, '0 0 1 * *');
+    }
+
+
+
+    /**
+     * @test
+     */
+    public function canSetMonthlyOnSpecificDay()
+    {
+        $frequencies = $this->frequencies();
+        # $frequencies->monthlyOn(10)->at(12, 30);
+        $frequencies->monthlyOn(10);
+
+        $this->assertEquals($frequencies->expression, '0 0 10 * *');
+    }
+
+
+    /** @test */
+    public function replacementWorksCorrectly()
+    {
+        $frequencies = $this->frequencies();
+        $frequencies->daily()->daily();
+
+        $this->assertEquals($frequencies->expression, '0 0 * * *');
+    }
+
+
+
+    /**
      * @return \PHPUnit\Framework\MockObject\MockObject
     */
     protected function frequencies()

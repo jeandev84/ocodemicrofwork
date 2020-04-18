@@ -220,7 +220,7 @@ trait Frequencies
 
         $expression = explode(' ', $this->expression);
 
-        array_splice($expression, $position - 1, 1, $value);
+        array_splice($expression, $position - 1, count($value), $value);
 
         $expression = array_slice($expression, 0, 5);
 

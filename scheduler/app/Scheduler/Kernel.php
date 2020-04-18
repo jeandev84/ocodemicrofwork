@@ -2,6 +2,8 @@
 namespace App\Scheduler;
 
 
+use Carbon\Carbon;
+
 /**
  * Class Kernel
  * @package App\Scheduler
@@ -13,9 +15,18 @@ class Kernel
     protected $events = [];
 
 
-    public function add($event)
+    /** @var Carbon */
+    protected $date;
+
+
+    /**
+     * @param $event
+     * @return mixed
+    */
+    public function add(Event $event)
     {
         $this->events[] = $event;
+
         return $event;
     }
 
@@ -33,6 +44,28 @@ class Kernel
         }
     }
 
+
+    /**
+     * @param Carbon $date
+    */
+    public function setDate(Carbon $date)
+    {
+        $this->date = $date;
+    }
+
+
+    /**
+     * @return Carbon
+    */
+    public function getDate()
+    {
+       if(! $this->date)
+       {
+           return Carbon::now();
+       }
+
+       return $this->date;
+    }
 
     /**
      * @return array
