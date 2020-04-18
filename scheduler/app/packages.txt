@@ -1,0 +1,10 @@
+# CRON PACKAGE
+$ composer require dragonmantank/cron-expression
+
+
+# CARBON PACKAGE
+$ composer require nesbot/carbon
+
+
+# Documentation
+https://crontab.guru/
