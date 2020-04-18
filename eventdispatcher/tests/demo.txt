@@ -1,0 +1,37 @@
+<?php
+namespace App\Tests\Unit;
+
+
+use App\Tests\Stubs\EventStub;
+use PHPUnit\Framework\TestCase;
+
+
+/**
+ * Class EventTest
+ * Can use block doc /** @test **
+ * or name fonction testExample() or test_example()
+ * more important add prefix test
+ * @package App\Tests\Unit
+*/
+class EventTest extends TestCase
+{
+     /*
+     public function testExampleWithCamelCase()
+     {
+        $this->assertTrue(true);
+     }
+
+
+     public function test_exampleWithUnderscore()
+     {
+        $this->assertTrue(true);
+     }
+     */
+
+
+      /** @test */
+     public function canGetEventName()
+     {
+          $event = new EventStub();
+     }
+}
