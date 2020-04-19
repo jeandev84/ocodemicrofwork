@@ -4,6 +4,7 @@ namespace Framework\Component\Validation;
 
 use Framework\Component\Validation\Errors\ErrorBag;
 use Framework\Component\Validation\Rules\Contracts\Rule;
+use Framework\Component\Validation\Rules\OptionalRule;
 
 
 /**
@@ -98,14 +99,34 @@ class Validator
     {
         foreach ($this->rules as $field => $rules)
         {
-            /* dump($this->resolveRules($rules)); */
-            foreach ($this->resolveRules($rules) as $rule)
+            $resolved = $this->resolveRules($rules);
+
+            foreach ($resolved as $rule)
             {
-                 $this->validateRule($field, $rule);
+                 /* dump($this->resolvedRulesContainsOptional($resolved)); */
+                 $this->validateRule($field, $rule, $this->resolvedRulesContainsOptional($resolved));
             }
         }
 
         return $this->errors->hasErrors();
+    }
+
+
+    /**
+     * @param array $rules
+     * @return bool
+     */
+    protected function resolvedRulesContainsOptional(array $rules)
+    {
+        foreach ($rules as $rule)
+        {
+            if($rule instanceof OptionalRule)
+            {
+                 return true;
+            }
+        }
+
+        return false;
     }
 
 
@@ -163,17 +184,75 @@ class Validator
      *
      * @param $field
      * @param Rule $rule
-    */
-    protected function validateRule($field, Rule $rule)
+     * @param bool $optional
+     *
+     * Looking:
+     *    dump($this->data);
+     *    dump($this->getMatchingData($field));
+     */
+    protected function validateRule($field, Rule $rule, $optional = false)
     {
-         $value = $this->getFieldValue($field, $this->data);
+        foreach ($this->getMatchingData($field) as $matchedField)
+        {
+             if(($value = $this->getFieldValue($matchedField, $this->data)) === '' && $optional)
+             {
+                  continue;
+             }
 
-         if(! $rule->passes($field, $value, $this->data))
-         {
-              /* dump($rule->message($field)); */
-              $this->errors->add($field, $rule->message(self::alias($field)));
-         }
+             $this->validateUsingRuleObject($matchedField, $value, $rule);
+        }
     }
+
+
+    /**
+     * @param $field
+     * @param $value
+     * @param Rule $rule
+     */
+    protected function validateUsingRuleObject($field, $value, Rule $rule)
+    {
+        if(! $rule->passes($field, $value, $this->data))
+        {
+            /* dump($rule->message($field)); */
+            $this->errors->add($field, $rule->message(self::alias($field)));
+        }
+    }
+
+
+    /**
+     * Get matching data
+     * @param $field
+     *
+     *  "users.0.email" => "jeanyao@ymail.com"
+        "users.0.first_name" => "Jean"
+        "users.1.email" => "jeanyao"
+        "users.1.first_name" => "Brown"
+        "users.2.email" => ""
+        "users.2.first_name" => "Ashley
+     *
+    */
+    protected function getMatchingData($field)
+    {
+         return preg_grep(
+             '/^'. str_replace('*', '([^\.]+)', $field) .'/',
+             array_keys($this->data)
+         );
+    }
+
+    /*
+    Details method
+    protected function getMatchingData($field)
+    {
+         # replace "*" regular expression [ "users.([^\.]+).email"]
+         $fieldRegex = str_replace('*', '([^\.]+)', $field);
+
+         # keys for the data
+         $dataKeys = array_keys($this->data);
+
+         # find to replace field regex in datakeys
+         return preg_grep('/^'. $fieldRegex .'/', $dataKeys);
+    }
+    */
 
 
     /**

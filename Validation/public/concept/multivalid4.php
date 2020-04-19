@@ -9,30 +9,31 @@ use Framework\Component\Validation\Validator;
 require __DIR__.'/../vendor/autoload.php';
 
 $validator = new Validator([
-  'email' => '',
-  'first_name' => 'Alexander'
+    'emails' => [
+        'boss@codecourse.com',
+        'alex@codecourse.com'
+    ]
 ]);
 
 
 
 $validator->setRules([
-   'email' => [
-       'email', 'optional'
-   ],
-   'first_name' => [
-       'optional',
-       'max:5'
-   ]
+    'emails.0' => [
+        'required'
+    ],
+    'emails.*' => [
+        'email'
+    ]
 ]);
 
 
 if(! $validator->validate())
 {
-   dump($validator->getErrors());
+    dump($validator->getErrors());
 
 }else {
 
-   dump('Passed!');
+    dump('Passed!');
 }
 
 
