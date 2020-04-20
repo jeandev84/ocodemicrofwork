@@ -3,3 +3,7 @@ https://github.com/endroid/QrCode
 "require": {
     "endroid/qrcode": "1.3.*"
 }
+
+Package endroid/qrcode is abandoned, you should avoid using it. Use endroid/qr-code instead.
+
+$ composer require endroid/qr-code
