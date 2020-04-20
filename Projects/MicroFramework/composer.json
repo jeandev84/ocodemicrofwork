@@ -1,7 +1,6 @@
 {
    "autoload": {
      "psr-4": {
-        "Framework\\": "../../Archived/src",
         "App\\": "app"
      }
    },
