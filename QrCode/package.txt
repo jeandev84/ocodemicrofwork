@@ -1,0 +1,5 @@
+https://github.com/endroid/QrCode
+
+"require": {
+    "endroid/qrcode": "1.3.*"
+}

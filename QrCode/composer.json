@@ -1,0 +1,19 @@
+{
+    "name": "jeandev/qr-code",
+    "description": "Generate Scannable QR Code with php",
+    "authors": [
+        {
+            "name": "Yao Jean-Claude",
+            "email": "jeandev84@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src/",
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "endroid/qrcode": "1.3.*"
+    }
+}

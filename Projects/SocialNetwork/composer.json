@@ -1,0 +1,22 @@
+{
+    "name": "jeandev/socialnetwork",
+    "description": "build core framework application",
+    "authors": [
+        {
+            "name": "Yao Jean-Claude",
+            "email": "jeandev84@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src/Framework/",
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "vendor/filp/whoops": "^2.7"
+    },
+    "require-dev": {
+        "vendor/phpunit/phpunit": "4.3.*"
+    }
+}
