@@ -1,0 +1,19 @@
+{
+    "name": "jeandev/dynamic",
+    "description": "cleaning up code with dynamic method calling",
+    "authors": [
+        {
+            "name": "Yao Jean-Claude",
+            "email": "jeandev84@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src",
+            "App\\": "app"
+        }
+    },
+    "require": {
+        "symfony/var-dumper": "^5.0"
+    }
+}
