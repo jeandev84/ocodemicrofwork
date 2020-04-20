@@ -10,5 +10,12 @@ return [
 */
 
 return [
-    'name' => getenv('APP_NAME')
+    'name' => env('APP_NAME'),
+    'debug' => env('APP_DEBUG', false),
+
+    'providers' => [
+        'App\Providers\AppServiceProvider',
+        'App\Providers\ViewServiceProvider',
+        'App\Providers\ConfigServiceProvider',
+     ]
 ];

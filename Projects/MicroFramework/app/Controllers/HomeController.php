@@ -33,11 +33,22 @@ class HomeController
      public function index(RequestInterface $request, ResponseInterface $response)
      {
          return $this->view->render($response, 'home.twig', [
-             'name' => 'Billy'
+             'user' => [
+                 'id' => 1
+             ]
          ]);
      }
 
 
+    /**
+     * @param $view
+     * @param array $data
+     * @param null $response
+     * @return mixed|ResponseInterface
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
      protected function render($view, $data = [], $response = null)
      {
          return $this->view->render($response, $view, $data);

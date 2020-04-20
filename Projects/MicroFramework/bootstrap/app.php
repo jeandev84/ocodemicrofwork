@@ -20,9 +20,6 @@ try {
 require_once base_path('bootstrap/container.php');
 
 
-dump($container->get('config')->get('app.name.short'));
-
-
 $route = $container->get(League\Route\RouteCollection::class);
 
 

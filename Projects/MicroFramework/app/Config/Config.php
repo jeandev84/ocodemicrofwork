@@ -49,6 +49,9 @@ class Config
      *   (new Config())->get('app')
      *   (new Config())->get('app.name')
      *   (new Config())->get('app.name.short')
+     *
+     * From container Service Providers
+     * dump($container->get('config')->get('app.name.short'));
      */
     public function get($key, $default = null)
     {
