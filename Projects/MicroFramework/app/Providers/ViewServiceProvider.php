@@ -25,7 +25,7 @@ class ViewServiceProvider extends AbstractServiceProvider
 
         $container->share(View::class, function () {
 
-            $loader = new Twig_Loader_Filesystem(__DIR__.'/../../views');
+            $loader = new Twig_Loader_Filesystem(base_path('views'));
 
             $twig = new Twig_Environment($loader, [
                 'cache' => false

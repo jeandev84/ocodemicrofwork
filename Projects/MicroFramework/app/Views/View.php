@@ -34,11 +34,11 @@ class View
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
+     *
+     * $response->getBody()->write('Home');
     */
     public function render(ResponseInterface $response, $view, $data = [])
     {
-        # $response->getBody()->write('Home');
-
         $response->getBody()->write(
             $this->twig->render($view, $data)
         );
