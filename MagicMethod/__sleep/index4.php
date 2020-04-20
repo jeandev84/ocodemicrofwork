@@ -109,6 +109,7 @@ $string = base64_encode(serialize($job));
 // put in database
 # var_dump(unserialize(base64_decode($string)));
 
+# Unserialise
 $job = unserialize(base64_decode($string));
 $job->handle();
 
