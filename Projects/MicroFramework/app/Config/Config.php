@@ -44,6 +44,11 @@ class Config
      * @param $key
      * @param null $default
      * @return mixed
+     *
+     * Example:
+     *   (new Config())->get('app')
+     *   (new Config())->get('app.name')
+     *   (new Config())->get('app.name.short')
      */
     public function get($key, $default = null)
     {

@@ -11,5 +11,6 @@ $container->delegate(
 # Add Services Providers
 $container->addServiceProvider(new App\Providers\AppServiceProvider());
 $container->addServiceProvider(new App\Providers\ViewServiceProvider());
+$container->addServiceProvider(new App\Providers\ConfigServiceProvider());
 
 /* var_dump($container->get(League\Route\RouteCollection::class)); */

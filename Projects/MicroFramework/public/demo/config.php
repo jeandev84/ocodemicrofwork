@@ -16,12 +16,23 @@ try {
 
 }
 
+/*
+$arrayLoader = new \App\Config\Loaders\ArrayLoader([
+    'app' => base_path('config/app.php'),
+    'cache' => base_path('config/cache.php'),
+]);
+
+ dump($arrayLoader->parse());
+
+$config = new App\Config\Config();
+$config->load([$arrayLoader]);
+
+dump($config->get('app.name.short'));
+dump($config->get('app.name.long', 'Codecourse'));
+*/
+
 
 require_once base_path('bootstrap/container.php');
-
-
-dump($container->get('config')->get('app.name.short'));
-
 
 $route = $container->get(League\Route\RouteCollection::class);
 
