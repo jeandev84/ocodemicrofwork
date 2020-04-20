@@ -2,7 +2,9 @@
 namespace App\Controllers;
 
 
+use App\Models\User;
 use App\Views\View;
+use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -16,13 +18,20 @@ class HomeController
      /** @var  */
      protected $view;
 
-     /**
-      * HomeController constructor.
-      * @param View $view
+
+     /** @var EntityManager  */
+     protected $db;
+
+
+    /**
+     * HomeController constructor.
+     * @param View $view
+     * @param EntityManager $db
      */
-     public function __construct(View $view)
+     public function __construct(View $view, EntityManager $db)
      {
          $this->view = $view;
+         $this->db = $db;
      }
 
      /**
@@ -32,10 +41,11 @@ class HomeController
      */
      public function index(RequestInterface $request, ResponseInterface $response)
      {
+         $user = $this->db->getRepository(User::class)
+                          ->find(1);
+
          return $this->view->render($response, 'home.twig', [
-             'user' => [
-                 'id' => 1
-             ]
+             'user' => $user
          ]);
      }
 
