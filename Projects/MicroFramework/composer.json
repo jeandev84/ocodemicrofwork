@@ -1,12 +1,14 @@
 {
    "autoload": {
      "psr-4": {
-        "Framework\\": "src",
+        "Framework\\": "../../Archived/src",
         "App\\": "app"
      }
    },
    "require": {
      "vlucas/phpdotenv": "^2.4",
-     "league/route": "^3.0"
+     "league/route": "^3.0",
+     "zendframework/zend-diactoros": "^1.7",
+     "symfony/var-dumper": "^4.0"
    }
 }

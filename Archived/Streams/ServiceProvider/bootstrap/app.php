@@ -14,4 +14,4 @@ try {
 
 # var_dump(getenv('APP_NAME'));
 
-require_once __DIR__.'/container.php';
+require_once __DIR__ . '/container.php';

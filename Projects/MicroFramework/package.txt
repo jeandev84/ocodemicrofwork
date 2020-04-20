@@ -19,3 +19,6 @@ $ php -S localhost:8888 -t public public/index.php -d display_errors=1
         "vlucas/valitron": "^1.4"
     }
 }
+
+Package container-interop/container-interop is abandoned, you should avoid using it. Use psr/container instead.
+Package zendframework/zend-diactoros is abandoned, you should avoid using it. Use laminas/laminas-diactoros instead.
