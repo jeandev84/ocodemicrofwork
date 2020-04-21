@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 
+use App\Auth\Hashing\Contracts\Hasher;
 use App\Views\View;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,17 +14,24 @@ use Psr\Http\Message\ResponseInterface;
 */
 class HomeController extends Controller
 {
-     /** @var  */
+
+     /** @var View  */
      protected $view;
+
+
+     /** @var Hasher  */
+     protected $hash;
 
 
     /**
      * HomeController constructor.
      * @param View $view
+     * @param Hasher $hash
      */
-     public function __construct(View $view)
+     public function __construct(View $view, Hasher $hash)
      {
          $this->view = $view;
+         $this->hash = $hash;
      }
 
      /**
@@ -33,9 +41,7 @@ class HomeController extends Controller
      */
      public function index($request, $response)
      {
-         return $this->view->render($response, 'home.twig', [
-             'user' => null
-         ]);
+         return $this->view->render($response, 'home.twig');
      }
 
 }
