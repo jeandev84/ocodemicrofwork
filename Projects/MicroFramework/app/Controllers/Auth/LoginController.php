@@ -75,7 +75,7 @@ class LoginController extends Controller
 
        if(! $attempt)
        {
-           /* dd('Failed authentication!'); */
+           dd('Failed authentication!');
 
        }
 
