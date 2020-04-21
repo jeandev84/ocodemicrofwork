@@ -48,7 +48,6 @@ class View
 
 
     /**
-     * Definit des variables globalement
      * @param array $data
     */
     public function share(array $data)

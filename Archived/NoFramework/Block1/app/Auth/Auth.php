@@ -84,16 +84,6 @@ class Auth
 
 
      /**
-      * Determine if has user in session
-      * @return bool
-     */
-     public function check()
-     {
-         return $this->hasUserInSession();
-     }
-
-
-     /**
       * @return bool
      */
      public function hasUserInSession()

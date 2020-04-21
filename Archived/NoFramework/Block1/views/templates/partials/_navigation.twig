@@ -8,32 +8,25 @@
             <li class="nav-item">
                 <a href="{{ route('home') }}" class="nav-link">Home</a>
             </li>
-            {% if auth.check %}
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Dashboard</a>
-                </li>
-            {% endif %}
+            <li class="nav-item">
+                <a href="#" class="nav-link">Dashboard</a>
+            </li>
         </ul>
         <ul class="navbar-nav">
-
-            {% if auth.check %} <!-- if user authenticated auth.check -->
-
+            {% if false %} <!-- if user authenticated auth.check -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">{{ auth.user.name }}</a> <!-- user name -->
+                    <a href="#" class="nav-link">Alex Garnett-Smith</a> <!-- user name -->
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Sign out</a> <!-- Log out -->
                 </li>
-
             {% else %}
-
                 <li class="nav-item">
                     <a href="{{ route('auth.login') }}" class="nav-link">Sign in</a> <!-- Log in -->
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Create an account</a> <!-- Registration -->
                 </li>
-
             {% endif %}
         </ul>
     </div>

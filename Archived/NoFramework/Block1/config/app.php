@@ -14,14 +14,13 @@ return [
     'debug' => env('APP_DEBUG', false),
 
     'providers' => [
-        # order registration is very important because for retrieve
         'App\Providers\AppServiceProvider',
         'App\Providers\ViewServiceProvider',
         'App\Providers\DatabaseServiceProvider',
         'App\Providers\SessionServiceProvider',
+        'App\Providers\ViewShareServiceProvider',
         'App\Providers\HashServiceProvider',
-        'App\Providers\AuthServiceProvider',
-        'App\Providers\ViewShareServiceProvider'
+        'App\Providers\AuthServiceProvider'
      ],
 
     'middlewares' => [
