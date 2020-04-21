@@ -4,6 +4,7 @@ namespace App\Controllers\Auth;
 
 use App\Auth\Auth;
 use App\Controllers\Controller;
+use App\Session\Flash;
 use App\Views\View;
 use League\Route\RouteCollection;
 
@@ -27,6 +28,10 @@ class LoginController extends Controller
     protected $route;
 
 
+    /** @var Flash  */
+    protected $flash;
+
+
     /**
      * HomeController constructor.
      * @param View $view
@@ -36,11 +41,13 @@ class LoginController extends Controller
     public function __construct(
         View $view,
         Auth $auth,
-        RouteCollection $route)
+        RouteCollection $route,
+        Flash $flash)
     {
         $this->view = $view;
         $this->auth = $auth;
         $this->route = $route;
+        $this->flash = $flash;
     }
 
     /**
@@ -75,8 +82,10 @@ class LoginController extends Controller
 
        if(! $attempt)
        {
-           dd('Failed authentication!');
+           /* dd('Failed authentication!'); */
 
+           $this->flash->now('error', 'Could not sign in you in with those details.');
+           return redirect($request->getUri()->getPath()); // redirect to login page
        }
 
        return redirect($this->route->getNamedRoute('home')->getPath());
