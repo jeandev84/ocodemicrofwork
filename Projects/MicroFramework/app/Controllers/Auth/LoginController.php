@@ -30,10 +30,12 @@ class LoginController extends Controller
      * @param $request
      * @param $response
      * @return mixed
+     *
+     * $this->view->render($response, 'auth/login.twig')
      */
     public function index($request, $response)
     {
-        return $this->view->render($response, 'auth/login.twig');
+        dd($_SESSION);
     }
 
 
