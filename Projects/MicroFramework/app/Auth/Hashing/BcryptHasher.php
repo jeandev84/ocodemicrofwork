@@ -15,7 +15,7 @@ class BcryptHasher implements Hasher
      * @param $plain
      * @return mixed|void
      *
-     * $this->create('secret');
+     * $this->create('secret123');
     */
     public function create($plain)
     {

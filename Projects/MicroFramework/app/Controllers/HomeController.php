@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 
+use App\Auth\Auth;
 use App\Auth\Hashing\Contracts\Hasher;
 use App\Views\View;
 use Psr\Http\Message\RequestInterface;
@@ -19,19 +20,15 @@ class HomeController extends Controller
      protected $view;
 
 
-     /** @var Hasher  */
-     protected $hash;
-
 
     /**
      * HomeController constructor.
      * @param View $view
-     * @param Hasher $hash
+     * @param Auth $auth
      */
-     public function __construct(View $view, Hasher $hash)
+     public function __construct(View $view)
      {
          $this->view = $view;
-         $this->hash = $hash;
      }
 
      /**
