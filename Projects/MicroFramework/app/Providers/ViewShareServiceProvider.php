@@ -15,7 +15,9 @@ use League\Container\ServiceProvider\BootableServiceProviderInterface;
  * You must to register provider when has defined provides = []
  *
  * BootableServiceProviderInterface contain method boot
- * if service provider implements BootableServiceProviderInterface so will be running boot()
+ * if service provider implements BootableServiceProviderInterface
+ * and service has registred in providers
+ * so will be running boot()
 */
 class ViewShareServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
