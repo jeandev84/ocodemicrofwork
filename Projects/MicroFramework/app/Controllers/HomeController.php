@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class HomeController
  * @package App\Controllers
 */
-class HomeController
+class HomeController extends Controller
 {
      /** @var  */
      protected $view;
@@ -38,14 +38,4 @@ class HomeController
          ]);
      }
 
-
-    /**
-     * @param $view
-     * @param array $data
-     * @param null $response
-     */
-     protected function render($view, $data = [], $response = null)
-     {
-         return $this->view->render($response, $view, $data);
-     }
 }
