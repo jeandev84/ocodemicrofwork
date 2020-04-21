@@ -11,3 +11,11 @@ $route->get('/', function ($request, $response) use ($container){
 
 $route->get('/', 'App\Controllers\HomeController::index')
       ->setName('home');
+
+
+$route->group('/auth', function ($route)  {
+    $route->get('/signin', 'App\Controllers\Auth\LoginController::index')
+          ->setName('auth.login');
+});
+
+
