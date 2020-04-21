@@ -50,27 +50,72 @@ class Auth
      }
 
 
-     /**
-      * Login user by credentials
-      * @param $username
-      * @param $password
-      * @param bool $remember
+    /**
+     * Login user by credentials
+     * @param $username
+     * @param $password
+     * @param bool $remember
+     * @return bool
      */
      public function attempt($username, $password, $remember = false)
      {
           /** @var User $user */
           $user = $this->getByUsername($username);
 
-          /* if not user and has not valid credentials */
+          // if not user and has not valid credentials
           if(! $user || ! $this->hasValidCredentials($user, $password))
           {
               return false;
           }
 
+          // need to rehash when password does not matched
+          if($this->needsRehash($user))
+          {
+              $this->rehashPassword($user, $password);
+          }
+
+
+          // set user in session
           $this->setUserSession($user);
 
 
           return true;
+     }
+
+
+    /**
+     * Determine if need to rehash user password
+     * we need to rehash password if the cost changed for example
+     * need to rehash password when hasheds passwords does not matches
+     * for example whe cost changed manually
+     * $hash = '$2y$12$kxuI.z4zqwNDBzPLTSjit.YN5qnfiB2tbrGY/vGSF4LqwpvBOImfq'
+     * costHash = 12
+     * if to change options cost = 15 for example that is not match,
+     * it used for resolving probleme of old and new password
+     *
+     * @param $user
+     * @return mixed
+     */
+     protected function needsRehash($user)
+     {
+          return $this->hash->needsRehash($user->password);
+     }
+
+
+     /**
+      * Rehash User password and to Update password in  the database
+      * @param $user
+      * @param $password
+     */
+     protected function rehashPassword($user, $password)
+     {
+         $this->db->getRepository(User::class)
+                  ->find($user->id)
+                  ->update([
+                      'password' => $this->hash->create($password)
+                  ]);
+
+         $this->db->flush();
      }
 
 

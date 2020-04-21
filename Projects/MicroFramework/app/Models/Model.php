@@ -31,4 +31,19 @@ abstract class Model
      {
           return property_exists($this, $name) ? true : false;
      }
+
+
+     /**
+      * Helper method for update data
+      * @param array $columns
+      *
+      * Update data without Doctrine
+     */
+     public function update(array $columns)
+     {
+         foreach ($columns as $column => $value)
+         {
+              $this->{$column} = $value;
+         }
+     }
 }
