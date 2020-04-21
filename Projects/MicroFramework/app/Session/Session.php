@@ -86,10 +86,7 @@ class Session implements SessionStore
     {
          foreach ($key as $sessionKey)
          {
-             if($this->exists($key))
-             {
-                 unset($_SESSION[$sessionKey]);
-             }
+             unset($_SESSION[$sessionKey]);
          }
     }
 

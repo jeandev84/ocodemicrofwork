@@ -27,6 +27,10 @@ require_once base_path('bootstrap/container.php');
 
 # Route collection from container
 $route = $container->get(League\Route\RouteCollection::class);
+
+# Middleware stated before routes
+require_once base_path('bootstrap/middleware.php');
+
 require_once base_path('routes/web.php');
 
 

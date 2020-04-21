@@ -35,7 +35,7 @@ class LoginController extends Controller
      */
     public function index($request, $response)
     {
-        dd($_SESSION);
+        return $this->view->render($response, 'auth/login.twig');
     }
 
 

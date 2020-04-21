@@ -45,4 +45,16 @@ class View
 
         return $response;
     }
+
+
+    /**
+     * @param array $data
+    */
+    public function share(array $data)
+    {
+        foreach ($data as $key => $value)
+        {
+            $this->twig->addGlobal($key, $value);
+        }
+    }
 }
