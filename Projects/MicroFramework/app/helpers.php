@@ -1,5 +1,22 @@
 <?php
 
+use Zend\Diactoros\Response\RedirectResponse;
+
+
+if(! function_exists('redirect'))
+{
+     /**
+      * Redirect
+      * @param string $path
+      * @return string
+     */
+    function redirect($path)
+    {
+        return new \Zend\Diactoros\Response\RedirectResponse($path);
+    }
+}
+
+
 if(! function_exists('base_path'))
 {
     /**

@@ -23,7 +23,7 @@ try {
         $container->get('request'), $container->get('response')
     );
 } catch (Exception $e) {
-    $handler = new App\Exceptions\Handler(
+    $handler = new App\Exceptions\ErrorHandler(
         $e,
         $container->get(App\Session\SessionStore::class),
         $container->get('response'),

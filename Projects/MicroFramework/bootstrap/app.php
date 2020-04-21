@@ -34,6 +34,9 @@ try {
 
 } catch (Exception $e) {
 
-    dump($e);
-    die;
+    /* dump($e); */
+
+    # terminate()
+    $handler = new \App\Exceptions\ErrorHandler($e);
+    $response = $handler->respond();
 }
