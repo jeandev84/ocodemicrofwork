@@ -34,7 +34,7 @@ class LogoutController extends Controller
      * @param $response
      * @return mixed
      *
-     */
+    */
     public function logout($request, $response)
     {
         $this->auth->logout();
