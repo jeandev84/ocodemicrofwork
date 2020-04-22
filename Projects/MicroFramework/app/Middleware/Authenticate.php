@@ -9,6 +9,8 @@ use Exception;
 /**
  * Class Authenticate
  * @package App\Middleware
+ *
+ * Permet d'authentifier l'utilisateur
 */
 class Authenticate
 {

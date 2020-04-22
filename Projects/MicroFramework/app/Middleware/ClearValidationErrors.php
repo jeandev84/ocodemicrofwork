@@ -10,7 +10,7 @@ use App\Views\View;
  * Class ClearValidationErrors
  * @package App\Middleware
  *
- * Clear the errors validation after reflesh page
+ * Clear the errors validation after refleshing page
 */
 class ClearValidationErrors
 {

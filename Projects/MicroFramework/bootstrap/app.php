@@ -1,6 +1,7 @@
 <?php
-
 use App\Session\Contracts\SessionStore;
+use App\Views\View;
+
 
 session_start();
 
@@ -48,7 +49,9 @@ try {
     # terminate() Get Errors
     $handler = new \App\Exceptions\ErrorHandler(
         $e,
-        $container->get(SessionStore::class)
+        $container->get(SessionStore::class),
+        $container->get('response'),
+        $container->get(View::class)
     );
     $response = $handler->respond();
 }

@@ -2,7 +2,9 @@
 namespace App\Exceptions;
 
 use App\Session\Contracts\SessionStore;
+use App\Views\View;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 use Zend\Diactoros\Response\RedirectResponse;
 
@@ -17,7 +19,7 @@ class ErrorHandler
 {
 
      /** @var Exception */
-     protected $execption;
+     protected $exception;
 
 
      /**
@@ -26,18 +28,32 @@ class ErrorHandler
      protected $session;
 
 
-     /**
-      * ErrorHandler constructor.
-      * @param \Exception $exception
-      * @param SessionStore $session (Session Interface)
+     /** @var ResponseInterface  */
+     protected $response;
+
+
+     /** @var View  */
+     protected $view;
+
+
+    /**
+     * ErrorHandler constructor.
+     * @param \Exception $exception
+     * @param SessionStore $session (Session Interface)
+     * @param ResponseInterface $response
+     * @param View $view
      */
      public function __construct(
          Exception $exception,
-         SessionStore $session
+         SessionStore $session,
+         ResponseInterface $response,
+         View $view
      )
      {
-         $this->execption = $exception;
+         $this->exception = $exception;
          $this->session = $session;
+         $this->response = $response;
+         $this->view = $view;
      }
 
 
@@ -58,14 +74,14 @@ class ErrorHandler
      */
      public function respond()
      {
-         $class = (new ReflectionClass($this->execption))->getShortName();
+         $class = (new ReflectionClass($this->exception))->getShortName();
 
          if(method_exists($this, $method = "handle{$class}"))
          {
-             return $this->{$method}($this->execption);
+             return $this->{$method}($this->exception);
          }
 
-         return $this->unhandledException($this->execption);
+         return $this->unhandledException($this->exception);
      }
 
 
@@ -88,7 +104,18 @@ class ErrorHandler
      }
 
 
-     /**
+    /**
+     * @param Exception $e
+     * @return string|RedirectResponse
+     *
+    */
+    protected function handleCsrfTokenException(Exception $e)
+    {
+        return $this->view->render($this->response, 'errors/csrf.twig');
+    }
+
+
+    /**
       * @param Exception $e
      */
      protected function unhandledException(Exception $e)
