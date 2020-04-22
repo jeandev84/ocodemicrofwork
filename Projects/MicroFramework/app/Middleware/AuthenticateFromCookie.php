@@ -7,12 +7,12 @@ use Exception;
 
 
 /**
- * Class Authenticate
+ * Class AuthenticateFromCookie
  * @package App\Middleware
  *
- * Permet d'authentifier l'utilisateur
+ * Permet d'authentifier l'utilisateur a partir du cookie
 */
-class Authenticate
+class AuthenticateFromCookie
 {
 
     /** @var Auth  */
@@ -33,14 +33,21 @@ class Authenticate
      * @param $request
      * @param $response
      * @param callable $next
-     */
+     * @return
+    */
     public function __invoke($request, $response, callable $next)
     {
-        if($this->auth->hasUserInSession())
+        if($this->auth->check())
+        {
+            return $next($request, $response);
+        }
+
+        // check have cookie remember setted
+        if($this->auth->hasRecaller())
         {
             try {
 
-                $this->auth->setUserFromSession();
+                $this->auth->setUserFromCookie();
 
             } catch (Exception $e) {
 

@@ -119,6 +119,41 @@ class Auth
 
 
      /**
+      * Set user from cookie
+     */
+     public function setUserFromCookie()
+     {
+         list($identifier, $token) = $this->recaller->splitCookieValue(
+             $this->cookie->get('remember')
+         );
+
+         // todo clear cookie if user does not exists
+         $user = $this->db->getRepository(User::class)
+                          ->findOneBy([
+                              'remember_identifier' => $identifier
+                          ]);
+
+         // if token matches
+         if(! $this->recaller->validateToken($token, $user->remember_token))
+         {
+              // todo clear remember token
+              throw new Exception();
+         }
+
+         // sign in user using session information
+         $this->setUserSession($user);
+     }
+
+     /**
+      * @return bool
+     */
+     public function hasRecaller()
+     {
+         return $this->cookie->exists('remember');
+     }
+
+
+     /**
       * Set Remember Token
       * @param $user
      */

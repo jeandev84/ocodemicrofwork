@@ -30,6 +30,27 @@ class Recaller
     }
 
     /**
+     * @param $plain
+     * @param $hash
+     * @return bool
+    */
+    public function validateToken($plain, $hash)
+    {
+        return $this->getTokenHashForDatabase($plain) === $hash;
+    }
+
+
+    /**
+     * Split cookie value by separator
+     * @param $value
+     * @return false|string[]
+    */
+    public function splitCookieValue($value)
+    {
+       return explode($this->separator, $value);
+    }
+
+    /**
      * Generate value for cookie
      * @param $identifier
      * @param $token

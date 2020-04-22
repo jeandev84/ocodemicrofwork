@@ -1,6 +1,9 @@
 <?php
 
+# cli: php database/fiil.php
 $pdo = require_once __DIR__ . '/connect/pdo.php';
+
+$pdo->exec('TRUNCATE TABLE `users`');
 
 $sql = '
 CREATE TABLE IF NOT EXISTS users(

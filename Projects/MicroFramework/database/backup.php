@@ -27,5 +27,6 @@ exec(sprintf('mysqldump -u root -h localhost -p --all-databases > ./database/dum
 
 # Resources : https://www.jotform.com/blog/how-to-backup-mysql-database/
 
+# cli: php database/backup.php
 exec(sprintf('mysqldump -u root -h localhost -p ocode_micro_framework > ./database/dumps/ocode_micro_framework.sql'));
 die;
