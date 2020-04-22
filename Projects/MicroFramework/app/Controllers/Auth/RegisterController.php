@@ -19,22 +19,24 @@ use League\Route\RouteCollection;
 class RegisterController extends Controller
 {
 
-    /** @var  */
+   /** @var View  */
     protected $view;
 
 
-    /**
-     * @var Hasher
-     */
-    private $hash;
+    /** @var Hasher  */
+    protected $hash;
 
 
     /** @var EntityManager  */
-    private $db;
-    /**
-     * @var RouteCollection
-     */
-    private $route;
+    protected $db;
+
+
+    /** @var RouteCollection  */
+    protected $route;
+
+
+    /** @var Auth  */
+    protected $auth;
 
 
     /**
@@ -43,18 +45,21 @@ class RegisterController extends Controller
      * @param Hasher $hash
      * @param EntityManager $db
      * @param RouteCollection $route
+     * @param Auth $auth
      */
     public function __construct(
         View $view,
         Hasher $hash,
         EntityManager $db,
-        RouteCollection $route
+        RouteCollection $route,
+        Auth $auth
     )
     {
         $this->view = $view;
         $this->hash = $hash;
         $this->db = $db;
         $this->route = $route;
+        $this->auth = $auth;
     }
 
     /**
@@ -82,6 +87,12 @@ class RegisterController extends Controller
         $data = $this->validateRegistration($request);
 
         $user = $this->createUser($data);
+
+        # Automatic authentication after registration
+        if(! $this->auth->attempt($data['email'], $data['password']))
+        {
+             return redirect('/');
+        }
 
         return redirect($this->route->getNamedRoute('home')->getPath());
     }
