@@ -24,6 +24,7 @@ return [
         'App\Providers\FlashServiceProvider',
         'App\Providers\CsrfServiceProvider',
         'App\Providers\ValidationServiceProvider',
+        'App\Providers\CookieServiceProvider',
         'App\Providers\ViewShareServiceProvider'
      ],
 
