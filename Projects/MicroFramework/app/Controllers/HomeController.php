@@ -42,8 +42,6 @@ class HomeController extends Controller
      */
      public function index($request, $response)
      {
-         $this->cookie->clear('abc');
-
          return $this->view->render($response, 'home.twig');
      }
 

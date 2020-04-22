@@ -73,12 +73,14 @@ class LoginController extends Controller
     */
     public function signin($request, $response)
     {
+       # Validate data by rules
        $data = $this->validate($request, [
            'email' => ['required', 'email'],
            'password' => ['required']
        ]);
 
-       $attempt = $this->auth->attempt($data['email'], $data['password']);
+       # Check authentication status and remember user (has remember ?)
+       $attempt = $this->auth->attempt($data['email'], $data['password'], isset($data['remember']));
 
        if(! $attempt)
        {

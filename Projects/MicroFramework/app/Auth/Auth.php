@@ -3,6 +3,7 @@ namespace App\Auth;
 
 
 use App\Auth\Hashing\Contracts\Hasher;
+use App\Cookie\CookieJar;
 use App\Models\User;
 use App\Session\Contracts\SessionStore;
 use Doctrine\ORM\EntityManager;
@@ -32,21 +33,42 @@ class Auth
      protected $user;
 
 
+     /**
+      * @var Recaller
+     */
+     protected $recaller;
+
+
+     /** @var CookieJar  */
+     protected $cookie;
+
+
     /**
      * Auth constructor.
      * @param EntityManager $db
      * @param Hasher $hash
      * @param SessionStore $session
+     * @param Recaller $recaller
+     *
      *
      * On peut creer un UserInterface
      * et obtenir toute les informations de lui
      *  methode getUsername(), getPassword() ...
+     * @param CookieJar $cookie
      */
-     public function __construct(EntityManager $db, Hasher $hash, SessionStore $session)
+     public function __construct(
+         EntityManager $db,
+         Hasher $hash,
+         SessionStore $session,
+         Recaller $recaller,
+         CookieJar $cookie
+     )
      {
          $this->db = $db;
          $this->hash = $hash;
          $this->session = $session;
+         $this->recaller = $recaller;
+         $this->cookie = $cookie;
      }
 
 
@@ -62,7 +84,7 @@ class Auth
      * Login user by credentials
      * @param $username
      * @param $password
-     * @param bool $remember
+     * @param bool $remember (Remember the user)
      * @return bool
      */
      public function attempt($username, $password, $remember = false)
@@ -86,12 +108,42 @@ class Auth
           // set user in session
           $this->setUserSession($user);
 
+          // check if has remember user setted
+          if($remember)
+          {
+               $this->setRememberToken($user);
+          }
 
           return true;
      }
 
 
-    /**
+     /**
+      * Set Remember Token
+      * @param $user
+     */
+     protected function setRememberToken($user)
+     {
+         // List generated values
+         list($identifier, $token) = $this->recaller->generate();
+
+         // Set remember cookie
+         $this->cookie->set('remember', $this->recaller->generateValueForCookie($identifier, $token));
+
+         // Persit hashing to the database
+         // Check User by id and update fields
+         $this->db->getRepository(User::class)
+                  ->find($user->id)
+                  ->update([
+                     'remember_identifier' => $identifier,
+                     'remember_token' => $this->recaller->getTokenHashForDatabase($token)
+                 ]);
+
+         $this->db->flush();
+     }
+
+
+     /**
      * Determine if need to rehash user password
      * we need to rehash password if the cost changed for example
      * need to rehash password when hasheds passwords does not matches

@@ -85,6 +85,8 @@ class CookieJar
     /**
      * Remove cookie by identified key
      * @param $key
+     *
+     * $this->clear('abc');
      */
     public function clear($key)
     {
@@ -104,6 +106,8 @@ class CookieJar
      * Set cookie forever
      * @param $key
      * @param $value
+     *
+     * $this->forever('name', 'Brown');
     */
     public function forever($key, $value)
     {
