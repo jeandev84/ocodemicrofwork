@@ -3,10 +3,12 @@ namespace App\Controllers\Auth;
 
 
 use App\Auth\Auth;
+use App\Auth\Hashing\Contracts\Hasher;
 use App\Controllers\Controller;
 use App\Models\User;
 use App\Session\Flash;
 use App\Views\View;
+use Doctrine\ORM\EntityManager;
 use League\Route\RouteCollection;
 
 
@@ -22,12 +24,37 @@ class RegisterController extends Controller
 
 
     /**
+     * @var Hasher
+     */
+    private $hash;
+
+
+    /** @var EntityManager  */
+    private $db;
+    /**
+     * @var RouteCollection
+     */
+    private $route;
+
+
+    /**
      * HomeController constructor.
      * @param View $view
+     * @param Hasher $hash
+     * @param EntityManager $db
+     * @param RouteCollection $route
      */
-    public function __construct(View $view)
+    public function __construct(
+        View $view,
+        Hasher $hash,
+        EntityManager $db,
+        RouteCollection $route
+    )
     {
         $this->view = $view;
+        $this->hash = $hash;
+        $this->db = $db;
+        $this->route = $route;
     }
 
     /**
@@ -52,10 +79,35 @@ class RegisterController extends Controller
     */
     public function register($request, $response)
     {
-         $this->validateRegistration($request);
+        $data = $this->validateRegistration($request);
 
+        $user = $this->createUser($data);
+
+        return redirect($this->route->getNamedRoute('home')->getPath());
     }
 
+
+    /**
+     * Create an user
+     * @param $data
+     */
+    protected function createUser($data)
+    {
+         $user = new User();
+
+         $user->fill([
+             'name' => $data['name'],
+             'email' => $data['email'],
+             'password' => $this->hash->create($data['password']),
+             'remember_token' => 'NULL',
+             'remember_identifier' => 'NULL',
+         ]);
+
+         $this->db->persist($user);
+         $this->db->flush();
+
+         return $user;
+    }
 
     /**
      * @param $request
