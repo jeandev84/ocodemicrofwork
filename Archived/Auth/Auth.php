@@ -3,10 +3,10 @@ namespace App\Auth;
 
 
 use App\Auth\Hashing\Contracts\Hasher;
-use App\Auth\Providers\UserProvider;
 use App\Cookie\CookieJar;
 use App\Models\User;
 use App\Session\Contracts\SessionStore;
+use Doctrine\ORM\EntityManager;
 use Exception;
 
 
@@ -17,6 +17,10 @@ use Exception;
 class Auth
 {
 
+     /** @var EntityManager  */
+     protected $db;
+
+
      /** @var Hasher  */
      protected $hash;
 
@@ -25,8 +29,9 @@ class Auth
      protected $session;
 
 
-     /** @var UserProvider is user Iinterface */
+     /** @var User change later by UserInterface */
      protected $user;
+
 
      /**
       * @var Recaller
@@ -40,29 +45,30 @@ class Auth
 
     /**
      * Auth constructor.
+     * @param EntityManager $db
      * @param Hasher $hash
      * @param SessionStore $session
      * @param Recaller $recaller
-     * @param CookieJar $cookie
-     * @param UserProvider $user
+     *
      *
      * On peut creer un UserInterface
      * et obtenir toute les informations de lui
      *  methode getUsername(), getPassword() ...
+     * @param CookieJar $cookie
      */
      public function __construct(
+         EntityManager $db,
          Hasher $hash,
          SessionStore $session,
          Recaller $recaller,
-         CookieJar $cookie,
-         UserProvider $user
+         CookieJar $cookie
      )
      {
+         $this->db = $db;
          $this->hash = $hash;
          $this->session = $session;
          $this->recaller = $recaller;
          $this->cookie = $cookie;
-         $this->user = $user;
      }
 
 
@@ -83,7 +89,8 @@ class Auth
      */
      public function attempt($username, $password, $remember = false)
      {
-          $user = $this->user->getByUsername($username);
+          /** @var User $user */
+          $user = $this->getByUsername($username);
 
           // if not user and has not valid credentials
           if(! $user || ! $this->hasValidCredentials($user, $password))
@@ -94,10 +101,7 @@ class Auth
           // need to rehash when password does not matched
           if($this->needsRehash($user))
           {
-              $this->user->updateUserPasswordHash(
-                  $user->id,
-                  $this->hash->create($password)
-              );
+              $this->rehashPassword($user, $password);
           }
 
 
@@ -123,8 +127,18 @@ class Auth
              $this->cookie->get('remember')
          );
 
+         // clear cookie if user does not exists
+         $user = $this->db->getRepository(User::class)
+                          ->findOneBy([
+                              'remember_identifier' => $identifier
+                          ]);
+
+
+         // Cookie recaller security logic :
+         // This logic called if user modify manually ,
+         // remember cookie value in the brown
          // clear current cookie if user does not exist
-         if(! $user = $this->user->getUserByRememberIdentifier($identifier))
+         if(! $user)
          {
               $this->cookie->clear('remember');
               return;
@@ -133,7 +147,15 @@ class Auth
          // if token matches
          if(! $this->recaller->validateToken($token, $user->remember_token))
          {
-              $this->user->clearUserRememberToken($user->id);
+              // clear remember token and identifier in the database
+             $user = $this->db->getRepository(User::class)
+                              ->find($user->id)
+                              ->update([
+                                  'remember_identifier' => null,
+                                  'remember_token' => null
+                              ]);
+
+              $this->db->flush();
               $this->cookie->clear('remember');
 
               throw new Exception();
@@ -164,11 +186,16 @@ class Auth
          // Set remember cookie
          $this->cookie->set('remember', $this->recaller->generateValueForCookie($identifier, $token));
 
-         $this->user->setUserRememberToken(
-             $user->id,
-             $identifier,
-             $this->recaller->getTokenHashForDatabase($token)
-         );
+         // Persit hashing to the database
+         // Check User by id and update fields
+         $this->db->getRepository(User::class)
+                  ->find($user->id)
+                  ->update([
+                     'remember_identifier' => $identifier,
+                     'remember_token' => $this->recaller->getTokenHashForDatabase($token)
+                 ]);
+
+         $this->db->flush();
      }
 
 
@@ -188,6 +215,23 @@ class Auth
      protected function needsRehash($user)
      {
           return $this->hash->needsRehash($user->password);
+     }
+
+
+     /**
+      * Rehash User password and to Update password in  the database
+      * @param $user
+      * @param $password
+     */
+     protected function rehashPassword($user, $password)
+     {
+         $this->db->getRepository(User::class)
+                  ->find($user->id)
+                  ->update([
+                      'password' => $this->hash->create($password)
+                  ]);
+
+         $this->db->flush();
      }
 
 
@@ -226,7 +270,7 @@ class Auth
      public function setUserFromSession()
      {
          # Try to check user using user stored in session
-         $user = $this->user->getById($this->session->get($this->key()));
+         $user = $this->getById($this->session->get($this->key()));
 
          if(! $user)
          {
@@ -268,6 +312,28 @@ class Auth
          /*  $this->hash->check($password, $user->getPassword()); */
 
          return $this->hash->check($password, $user->password);
+     }
+
+
+    /**
+     * Get User by Id
+     * @param $id
+    */
+    protected function getById($id)
+    {
+        return $this->db->getRepository(User::class)
+                        ->find($id);
+    }
+
+     /**
+      * Get User by username
+      * @param $username
+      * @return object|null
+     */
+     protected function getByUsername($username)
+     {
+         return $this->db->getRepository(User::class)
+                         ->findOneBy(['email' => $username]);
      }
 
 }

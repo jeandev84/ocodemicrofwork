@@ -1,6 +1,6 @@
 <?php
 
-# cli: php database/fiil.php
+# cli: php database/migrate.php
 $pdo = require_once __DIR__ . '/connect/pdo.php';
 
 $pdo->exec('TRUNCATE TABLE `users`');
@@ -11,10 +11,15 @@ CREATE TABLE IF NOT EXISTS users(
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    remember_token VARCHAR(255) NOT NULL,
-    remember_identifier VARCHAR(255) NOT NULL
+    remember_token VARCHAR(255) DEFAULT NULLABLE,
+    remember_identifier VARCHAR(255) DEFAULT NULLABLE
 )  ENGINE=INNODB;
 ';
+
+/*
+$sql .= 'ALTER TABLE users MODIFY COLUMN remember_token DEFAULT null';
+$sql .= 'ALTER TABLE users MODIFY COLUMN remember_identifier DEFAULT null';
+*/
 
 try {
 

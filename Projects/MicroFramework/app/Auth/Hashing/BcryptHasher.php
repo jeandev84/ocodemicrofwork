@@ -67,7 +67,7 @@ class BcryptHasher implements Hasher
     protected function options()
     {
         return [
-           'cost' => 12, // 14, 15
+           'cost' => 12, // 12 (it normal cost), 14, 15
         ];
     }
 }
