@@ -4,6 +4,7 @@ namespace App\Controllers\Auth;
 
 use App\Auth\Auth;
 use App\Controllers\Controller;
+use App\Models\User;
 use App\Session\Flash;
 use App\Views\View;
 use League\Route\RouteCollection;
@@ -51,7 +52,24 @@ class RegisterController extends Controller
     */
     public function register($request, $response)
     {
+         $this->validateRegistration($request);
+
+    }
 
 
+    /**
+     * @param $request
+     * @return mixed
+     */
+    protected function validateRegistration($request)
+    {
+        # equals (password_confirmation must be equal to password)
+        # users name of table User::class or users
+         return $this->validate($request, [
+             'email' => ['required', 'email', ['exists', User::class]],
+             'name'  => ['required'],
+             'password'  => ['required'],
+             'password_confirmation'  => ['required', ['equals', 'password']]
+         ]);
     }
 }

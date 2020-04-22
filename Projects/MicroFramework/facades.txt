@@ -1,0 +1,53 @@
+# Create an Facade for calling route like
+
+class Route
+{
+
+   private $path;
+
+   private $methods = null;
+
+   private $namedRoutes = [];
+
+   private $target;
+
+
+}
+
+# Facade
+class Route //extends Facade
+{
+    public static __callStatic($method, $arguments)
+    {
+        $route = new Route();
+        if(method_exists($route, $method))
+        {
+            return $route->{$method}($arguments);
+        }
+    }
+}
+
+class RouteCollection
+{
+   private static $routes = [];
+
+   public static function store($route)
+   {
+        self::$route[] = $route;
+   }
+
+}
+
+
+interface RouteInterface
+{
+   public static function get(...$args);
+   public static function post(...$args);
+   public static function put(...$args);
+   public static function delete(...$args);
+}
+
+class RouteSegment
+{
+    //
+}
