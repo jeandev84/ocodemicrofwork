@@ -93,8 +93,8 @@ class DatabaseProvider implements UserProvider
         $this->db->getRepository(User::class)
                  ->find($id)
                  ->update([
-                    'remember_identifier' => null,
-                    'remember_token' => null
+                    'remember_identifier' => 'NULL',
+                    'remember_token' => 'NULL'
                   ]);
 
          $this->db->flush();

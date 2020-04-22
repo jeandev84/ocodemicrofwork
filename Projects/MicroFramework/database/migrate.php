@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS users(
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    remember_token VARCHAR(255) DEFAULT NULLABLE,
-    remember_identifier VARCHAR(255) DEFAULT NULLABLE
-)  ENGINE=INNODB;
+    remember_token VARCHAR(255) DEFAULT NULL,
+    remember_identifier VARCHAR(255) DEFAULT NULL
+);
 ';
 
 /*

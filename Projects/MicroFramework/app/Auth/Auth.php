@@ -25,7 +25,7 @@ class Auth
      protected $session;
 
 
-     /** @var UserProvider is user Iinterface */
+     /** @var User */
      protected $user;
 
      /**
@@ -38,13 +38,17 @@ class Auth
      protected $cookie;
 
 
+     /** @var UserProvider  */
+     protected $provider;
+
+
     /**
      * Auth constructor.
      * @param Hasher $hash
      * @param SessionStore $session
      * @param Recaller $recaller
      * @param CookieJar $cookie
-     * @param UserProvider $user
+     * @param UserProvider $provider
      *
      * On peut creer un UserInterface
      * et obtenir toute les informations de lui
@@ -55,14 +59,14 @@ class Auth
          SessionStore $session,
          Recaller $recaller,
          CookieJar $cookie,
-         UserProvider $user
+         UserProvider $provider
      )
      {
          $this->hash = $hash;
          $this->session = $session;
          $this->recaller = $recaller;
          $this->cookie = $cookie;
-         $this->user = $user;
+         $this->provider = $provider;
      }
 
 
@@ -71,7 +75,12 @@ class Auth
      */
      public function logout()
      {
-          $this->session->clear($this->key());
+        if($this->user)
+        {
+            $this->provider->clearUserRememberToken($this->user->id);
+            $this->cookie->clear('remember');
+            $this->session->clear($this->key());
+        }
      }
 
     /**
@@ -83,7 +92,7 @@ class Auth
      */
      public function attempt($username, $password, $remember = false)
      {
-          $user = $this->user->getByUsername($username);
+          $user = $this->provider->getByUsername($username);
 
           // if not user and has not valid credentials
           if(! $user || ! $this->hasValidCredentials($user, $password))
@@ -94,7 +103,7 @@ class Auth
           // need to rehash when password does not matched
           if($this->needsRehash($user))
           {
-              $this->user->updateUserPasswordHash(
+              $this->provider->updateUserPasswordHash(
                   $user->id,
                   $this->hash->create($password)
               );
@@ -124,7 +133,7 @@ class Auth
          );
 
          // clear current cookie if user does not exist
-         if(! $user = $this->user->getUserByRememberIdentifier($identifier))
+         if(! $user = $this->provider->getUserByRememberIdentifier($identifier))
          {
               $this->cookie->clear('remember');
               return;
@@ -133,7 +142,7 @@ class Auth
          // if token matches
          if(! $this->recaller->validateToken($token, $user->remember_token))
          {
-              $this->user->clearUserRememberToken($user->id);
+              $this->provider->clearUserRememberToken($user->id);
               $this->cookie->clear('remember');
 
               throw new Exception();
@@ -164,7 +173,7 @@ class Auth
          // Set remember cookie
          $this->cookie->set('remember', $this->recaller->generateValueForCookie($identifier, $token));
 
-         $this->user->setUserRememberToken(
+         $this->provider->setUserRememberToken(
              $user->id,
              $identifier,
              $this->recaller->getTokenHashForDatabase($token)
@@ -226,7 +235,7 @@ class Auth
      public function setUserFromSession()
      {
          # Try to check user using user stored in session
-         $user = $this->user->getById($this->session->get($this->key()));
+         $user = $this->provider->getById($this->session->get($this->key()));
 
          if(! $user)
          {
