@@ -50,6 +50,14 @@ class Auth
      }
 
 
+     /**
+      * Logout authenticated user
+     */
+     public function logout()
+     {
+          $this->session->clear($this->key());
+     }
+
     /**
      * Login user by credentials
      * @param $username
