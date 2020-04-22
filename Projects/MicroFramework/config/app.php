@@ -27,6 +27,7 @@ return [
         'App\Providers\ViewShareServiceProvider'
      ],
 
+    # middlewares for request
     'middlewares' => [
         'App\Middleware\ShareValidationErrors',
         'App\Middleware\ClearValidationErrors',

@@ -13,16 +13,28 @@ $route->get('/', 'App\Controllers\HomeController::index')
       ->setName('home');
 
 
-$route->group('/auth', function ($route)  {
+# defined middleware working only for route,
+# we don't need to registrated to the list of configuration middlewares
+$route->group('', function ($route) {
 
-    $route->get('/signin', 'App\Controllers\Auth\LoginController::index')->setName('auth.login');
-    $route->post('/signin', 'App\Controllers\Auth\LoginController::signin');
+    $route->get('/dashboard', 'App\Controllers\DashboardController::index')->setName('dashboard');
+    $route->post('/auth/logout', 'App\Controllers\Auth\LogoutController::logout')->setName('auth.logout');
+
+})->middleware($container->get(\App\Middleware\Authenticated::class));
 
 
-    $route->post('/logout', 'App\Controllers\Auth\LogoutController::logout')->setName('auth.logout');
+# Don't insert group inside group
+$route->group('', function ($route) {
 
-    $route->get('/register', 'App\Controllers\Auth\RegisterController::index')->setName('auth.register');
-    $route->post('/register', 'App\Controllers\Auth\RegisterController::register');
-});
+    $route->get('/auth/signin', 'App\Controllers\Auth\LoginController::index')->setName('auth.login');
+    $route->post('/auth/signin', 'App\Controllers\Auth\LoginController::signin');
+
+    $route->get('/auth/register', 'App\Controllers\Auth\RegisterController::index')->setName('auth.register');
+    $route->post('/auth/register', 'App\Controllers\Auth\RegisterController::register');
+
+
+})->middleware($container->get(\App\Middleware\Guest::class));
+
+
 
 
