@@ -127,16 +127,37 @@ class Auth
              $this->cookie->get('remember')
          );
 
-         // todo clear cookie if user does not exists
+         // clear cookie if user does not exists
          $user = $this->db->getRepository(User::class)
                           ->findOneBy([
                               'remember_identifier' => $identifier
                           ]);
 
+
+         // Cookie recaller security logic :
+         // This logic called if user modify manually ,
+         // remember cookie value in the brown
+         // clear current cookie if user does not exist
+         if(! $user)
+         {
+              $this->cookie->clear('remember');
+              return;
+         }
+
          // if token matches
          if(! $this->recaller->validateToken($token, $user->remember_token))
          {
-              // todo clear remember token
+              // clear remember token and identifier in the database
+             $user = $this->db->getRepository(User::class)
+                              ->find($user->id)
+                              ->update([
+                                  'remember_identifier' => null,
+                                  'remember_token' => null
+                              ]);
+
+              $this->db->flush();
+              $this->cookie->clear('remember');
+
               throw new Exception();
          }
 
