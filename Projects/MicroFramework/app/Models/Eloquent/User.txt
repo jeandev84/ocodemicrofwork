@@ -1,0 +1,50 @@
+^ App\Models\Eloquent\User {#93 ▼
+  #fillable: array:5 [▼
+    0 => "name"
+    1 => "email"
+    2 => "password"
+    3 => "remember_identifier"
+    4 => "remember_token"
+  ]
+  #connection: "default"
+  #table: "users"
+  #primaryKey: "id"
+  #keyType: "int"
+  +incrementing: true
+  #with: []
+  #withCount: []
+  #perPage: 15
+  +exists: true
+  +wasRecentlyCreated: false
+  #attributes: array:6 [▼
+    "id" => 1
+    "name" => "Brown"
+    "email" => "jeanyao@ymail.com"
+    "password" => "$2y$12$E4KzvEXc6pCFKxFwjeqT6OJbn.nuZg0ulH7rGy.eVVQ7cjtRl2OPe"
+    "remember_token" => "NULL"
+    "remember_identifier" => "NULL"
+  ]
+  #original: array:6 [▼
+    "id" => 1
+    "name" => "Brown"
+    "email" => "jeanyao@ymail.com"
+    "password" => "$2y$12$E4KzvEXc6pCFKxFwjeqT6OJbn.nuZg0ulH7rGy.eVVQ7cjtRl2OPe"
+    "remember_token" => "NULL"
+    "remember_identifier" => "NULL"
+  ]
+  #changes: []
+  #casts: []
+  #dates: []
+  #dateFormat: null
+  #appends: []
+  #dispatchesEvents: []
+  #observables: []
+  #relations: []
+  #touches: []
+  +timestamps: true
+  #hidden: []
+  #visible: []
+  #guarded: array:1 [▼
+    0 => "*"
+  ]
+}

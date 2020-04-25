@@ -1,0 +1,17 @@
+{
+    "require-dev": {
+        "../../Projects/SocialNetwork/vendor/phpunit/phpunit": "^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Framework\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests",
+            "App\\Tests\\Stubs\\": "tests/Stubs"
+        }
+    }
+}

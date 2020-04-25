@@ -1,0 +1,17 @@
+{
+    "name": "jeandev/miniframework",
+    "description": "Building a miniframework like Slim",
+    "authors": [
+        {
+            "name": "Yao Jean-Claude",
+            "email": "jeandev84@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Framework\\": "src/"
+        }
+    },
+    "require": {}
+}

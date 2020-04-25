@@ -1,24 +1,15 @@
 <?php
 
-# Key is required for doctrine
-/*
 return[
   'mysql' => [
-      'driver' => env('DB_DRIVER', 'pdo_mysql'),
+      'driver' => 'mysql',
       'host' => env('DB_HOST', '127.0.0.1'),
-      'dbname' => env('DB_DATABASE', 'homestand'),
-      'user' => env('DB_USERNAME', 'root'),
-      'password' => env('DB_PASSWORD', 'secret'),
-  ]
-];
-*/
-return[
-  'mysql' => [
-      'driver' => env('DB_DRIVER', 'pdo_mysql'),
-      'host' => env('DB_HOST', '127.0.0.1'),
-      'dbname' => env('DB_DATABASE', 'database'),
-      'user' => env('DB_USERNAME', 'homestand'),
-      'password' => env('DB_PASSWORD', 'secret'),
-      'port' => env('DB_PORT', '3306')
+      'database' => env('DB_DATABASE', 'ocode_micro_framework'),
+      'username' => env('DB_USERNAME', 'jeandev84'),
+      'password' => env('DB_PASSWORD', 'jeandev84'),
+      'port' => env('DB_PORT', '3306'),
+      'charset' => 'utf8',
+      'collation' => 'utf8_unicode_ci',
+      'prefix' => '', // Example : 'app_' for prefix table names
   ]
 ];

@@ -8,12 +8,16 @@
      ]
    },
    "require": {
-     "vlucas/phpdotenv": "^2.4",
      "league/route": "^3.0",
      "zendframework/zend-diactoros": "^1.7",
      "symfony/var-dumper": "^4.0",
      "twig/twig": "^2.4",
      "doctrine/orm": "^2.6",
-     "vlucas/valitron": "^1.4"
+     "vlucas/valitron": "^1.4",
+     "vlucas/phpdotenv": "^3",
+      "illuminate/database": "5.8.36"
+   },
+   "require-dev": {
+      "composer/composer": "^1.10"
    }
 }

@@ -5,7 +5,7 @@ namespace App\Auth;
 use App\Auth\Hashing\Contracts\Hasher;
 use App\Auth\Providers\UserProvider;
 use App\Cookie\CookieJar;
-use App\Models\User;
+use App\Models\Eloquent\User;
 use App\Session\Contracts\SessionStore;
 use Exception;
 

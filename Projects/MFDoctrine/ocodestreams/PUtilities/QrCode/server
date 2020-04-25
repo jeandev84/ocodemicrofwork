@@ -1,0 +1,2 @@
+<?php
+$ php -S localhost:8000 qrcode.php -d display_errors=1

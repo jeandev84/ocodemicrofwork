@@ -14,7 +14,6 @@ return [
     'debug' => env('APP_DEBUG', false),
 
     'providers' => [
-        # order registration is very important because for retrieve
         'App\Providers\AppServiceProvider',
         'App\Providers\ViewServiceProvider',
         'App\Providers\DatabaseServiceProvider',

@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="#" class="navbar-brand">
+        {{ config.get('app.name') }}
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="{{ route('home') }}" class="nav-link">Home</a>
+            </li>
+            {% if auth.check %}
+                <li class="nav-item">
+                    <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
+                </li>
+            {% endif %}
+        </ul>
+        <ul class="navbar-nav">
+
+            {% if auth.check %} <!-- if user authenticated auth.check -->
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">{{ auth.user.name }}</a> <!-- user name -->
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout').submit();">
+                        Sign out
+                    </a> <!-- Log out -->
+                </li>
+
+            {% else %}
+
+                <li class="nav-item">
+                    <a href="{{ route('auth.login') }}" class="nav-link">Sign in</a> <!-- Log in -->
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('auth.register') }}" class="nav-link">Create an account</a> <!-- Registration -->
+                </li>
+
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+
+<form action="{{ route('auth.logout') }}" method="POST" style="display: none;" id="logout">
+    <input type="hidden" name="{{ csrf.key }}" value="{{ csrf.token }}">
+</form>
+
+<!--
+<script>
+    function submitByUrl(ev, id) {
+        ev.preventDefault();
+        document.getElementById(id).submit();
+    }
+</script>
+-->

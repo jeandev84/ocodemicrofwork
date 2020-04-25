@@ -7,21 +7,25 @@ session_start();
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-
-###### Kernel ######
-
-# Environement application
+# Get environment
 try {
 
-    $dotenv = (new \Dotenv\Dotenv(base_path()))->load();
+    // $dotenv = (new \Dotenv\Dotenv(base_path()))->load();
+    $dotenv = \Dotenv\Dotenv::create(base_path());
 
 } catch (\Dotenv\Exception\InvalidPathException $e) {
 
 }
 
+
 # Container Dependency Injection
 require_once base_path('bootstrap/container.php');
 
+/*
+dump(\App\Models\Eloquent\User::find(1));
+dump(\App\Models\Eloquent\User::find(1)->name);
+dump(\App\Models\Eloquent\User::where('email', 'jeanyao@ymail.com')->first()->name);
+*/
 
 
 # Session from container

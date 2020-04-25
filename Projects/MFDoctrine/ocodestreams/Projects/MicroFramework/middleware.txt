@@ -1,0 +1,4 @@
+# Middleware
+Il est mis entre la request et la reponse
+
+// request   ==> middleware 1 ... middleware2  ==> response

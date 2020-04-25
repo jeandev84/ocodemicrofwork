@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="#" class="navbar-brand">
+        {{ config.get('app.name') }}
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="{{ route('home') }}" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Dashboard</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            {% if false %} <!-- if user authenticated auth.check -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Alex Garnett-Smith</a> <!-- user name -->
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Sign out</a> <!-- Log out -->
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="{{ route('auth.login') }}" class="nav-link">Sign in</a> <!-- Log in -->
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Create an account</a> <!-- Registration -->
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
