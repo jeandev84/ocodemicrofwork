@@ -16,6 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `posts`
+--
+
+DROP TABLE IF EXISTS `posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `posts`
+--
+
+LOCK TABLES `posts` WRITE;
+/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+INSERT INTO `posts` VALUES (1,'Post one','2020-04-26 00:04:36','2020-04-26 00:04:47'),(2,'Post two','2020-04-26 00:04:36','2020-04-26 00:04:47'),(3,'Post three','2020-04-26 00:04:36','2020-04-26 00:04:47'),(4,'Post four','2020-04-26 00:04:36','2020-04-26 00:04:47'),(5,'Post five','2020-04-26 00:04:36','2020-04-26 00:04:47'),(6,'Post six','2020-04-26 00:04:36','2020-04-26 00:04:47'),(7,'Post seven','2020-04-26 00:04:36','2020-04-26 00:04:47'),(8,'Post eight','2020-04-26 00:04:36','2020-04-26 00:04:47'),(9,'Post nine','2020-04-26 00:07:26','2020-04-26 00:07:30'),(10,'Post ten','2020-04-26 00:07:43','2020-04-26 00:07:46');
+/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -27,10 +53,12 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `remember_token` varchar(255) NOT NULL,
-  `remember_identifier` varchar(255) NOT NULL,
+  `remember_token` varchar(255) DEFAULT NULL,
+  `remember_identifier` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +67,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Kouassi','jeanyao@ymail.com','$2y$12$y.RXPoyvAY4Vg5AcLdeNX.U9HfDnywwyvshwajxGDIcOpXnP7q4Vu','49a6f41b9cd3b7faff5acd76a3975b891d31286132791fa15bae38e6c30dc68a','9594f5da839b7dd04b071dac67ce16736e1f0a3b32e491ea890e5193c75c3d43'),(2,'jean','john@gmail.com','$2y$12$0sWkKZvamB79sMVChXaiAeIUxh.DZuy3uFxrA9Lg2w4kbiQnThyBi','NULL','NULL'),(3,'admin','admin@admin.com','$2y$12$/z3Kxik.BYUCWC6L6B7dge8s0gQ0k2roCw8JJq3lDb6Qre11r1XnG','NULL','NULL'),(4,'john','john2@gmail.com','$2y$12$ckFuZ4OmUb6FYxC5JX2tqOVzFPj7.xj5ned7oVK7Mr0kjhNZcW1om','NULL','NULL');
+INSERT INTO `users` VALUES (1,'Brown','jeanyao@ymail.com','$2y$12$7r2emzHRtyjrl4efaVvrHukoqPjmnCSGC768hdHPbZDFM52qDHe.y',NULL,NULL,'2020-04-26 13:45:07','2020-04-26 13:45:07');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +80,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22 19:29:54
+-- Dump completed on 2020-04-26 16:46:55
