@@ -15,7 +15,9 @@
      "doctrine/orm": "^2.6",
      "vlucas/valitron": "^1.4",
      "vlucas/phpdotenv": "^3",
-      "illuminate/database": "5.8.36"
+      "illuminate/database": "5.8.36",
+      "illuminate/contracts": "*",
+     "illuminate/pagination": "*"
    },
    "require-dev": {
       "composer/composer": "^1.10"

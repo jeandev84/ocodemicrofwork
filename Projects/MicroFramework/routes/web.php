@@ -36,5 +36,5 @@ $route->group('', function ($route) {
 })->middleware($container->get(\App\Middleware\Guest::class));
 
 
-
-
+$route->get('/posts', 'App\Controllers\PostController::index')
+      ->setName('posts.index');

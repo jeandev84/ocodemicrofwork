@@ -1,6 +1,7 @@
 <?php
 use App\Session\Contracts\SessionStore;
 use App\Views\View;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 
 session_start();
@@ -21,7 +22,10 @@ try {
 # Container Dependency Injection
 require_once base_path('bootstrap/container.php');
 
+
+
 /*
+Eloquent
 dump(\App\Models\Eloquent\User::find(1));
 dump(\App\Models\Eloquent\User::find(1)->name);
 dump(\App\Models\Eloquent\User::where('email', 'jeanyao@ymail.com')->first()->name);

@@ -27,6 +27,19 @@ class View
 
 
     /**
+     * @param $view
+     * @param array $data
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function make($view, $data = [])
+    {
+        return $this->twig->render($view, $data);
+    }
+
+    /**
      * @param ResponseInterface $response
      * @param $view
      * @param array $data
@@ -40,7 +53,7 @@ class View
     public function render(ResponseInterface $response, $view, $data = [])
     {
         $response->getBody()->write(
-            $this->twig->render($view, $data)
+            $this->make($view, $data)
         );
 
         return $response;

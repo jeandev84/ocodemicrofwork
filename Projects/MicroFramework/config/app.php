@@ -24,7 +24,8 @@ return [
         'App\Providers\CsrfServiceProvider',
         'App\Providers\ValidationServiceProvider',
         'App\Providers\CookieServiceProvider',
-        'App\Providers\ViewShareServiceProvider'
+        'App\Providers\ViewShareServiceProvider',
+        'App\Providers\PaginationServiceProvider'
      ],
 
     # middlewares for request
