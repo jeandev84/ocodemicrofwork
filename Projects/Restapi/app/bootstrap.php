@@ -9,9 +9,14 @@ $container['db'] = function () {
     return new PDO($dsn, 'root', '');
 };
 
+/* dump($container['db']); */
+
 $app = new \App\App($container);
 
-/* dump($container['db']); */
+// Add Middleware
+$app->add(new App\Middleware\JsonResponseMiddleware());
+
+
 
 # Load routes
 require_once 'routes.php';

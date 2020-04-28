@@ -40,4 +40,17 @@ class Controller
         return $this->response->withStatus($httpStatus)
                               ->withBody($body);
     }
+
+    /*
+     public function response($content='', $httpStatus = 200)
+     {
+        $body = $this->response->getBody();
+        $body->write($content);
+
+        # Bad pratice to put header (withHeader) here, more correct to create a Middleware
+        return $this->response->withStatus($httpStatus)
+                              ->withHeader('Content-Type', 'application/json')
+                              ->withBody($body);
+    }
+    */
 }

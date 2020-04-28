@@ -24,7 +24,12 @@ class ArticleController extends Controller
    */
     public function get($id)
     {
-        $article = $this->getArticleById($id);
+       $stmt = $this->container->get('db')
+                               ->prepare("SELECT * FROM articles WHERE id = :id");
+
+       $stmt->execute(['id' => $id]);
+
+       $article = $stmt->fetch(PDO::FETCH_OBJ);
 
        if(! $article)
        {
@@ -69,7 +74,11 @@ class ArticleController extends Controller
             'body' => $payload['body']
         ]);
 
-        $article = $this->getArticleById($db->lastInsertId());
+        $article = $db->prepare("SELECT * FROM articles WHERE id = :id");
+
+        $article->execute(['id' => $db->lastInsertId()]);
+
+        $article = $article->fetch(PDO::FETCH_OBJ);
 
         return $this->response((new ArticlePresenter($article))->present(), 200);
     }
@@ -116,7 +125,11 @@ class ArticleController extends Controller
             ]))->present(), '500');
         }
 
-        $article = $this->getArticleById($id);
+        $article = $this->container->get('db')
+                                   ->prepare("SELECT * FROM articles WHERE id = :id");
+
+        $article->execute(['id' => $id]);
+        $article->fetch(PDO::FETCH_OBJ);
 
         if(! $article)
         {
@@ -159,15 +172,9 @@ class ArticleController extends Controller
 
     /**
      * @param $id
-     * @return
-    */
+     */
     protected function getArticleById($id)
     {
-        $article = $this->container->get('db')
-                     ->prepare("SELECT * FROM articles WHERE id = :id");
 
-        $article->execute(['id' => $id]);
-
-        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 }
