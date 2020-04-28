@@ -8,10 +8,14 @@ namespace App\Controllers;
  */
 class Controller
 {
+
+    /** @var  */
     protected $request;
 
+    /** @var  */
     protected $response;
 
+    /** @var  */
     protected $container;
 
     /**
@@ -25,5 +29,15 @@ class Controller
         $this->request = $request;
         $this->response = $response;
         $this->container = $container;
+    }
+
+
+    public function response($content='', $httpStatus = 200)
+    {
+        $body = $this->response->getBody();
+        $body->write($content);
+
+        return $this->response->withStatus($httpStatus)
+                              ->withBody($body);
     }
 }

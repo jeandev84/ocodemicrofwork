@@ -1,0 +1,20 @@
+^ PDO {#18 ▼
+  inTransaction: false
+  attributes: {▼
+    CASE: NATURAL
+    ERRMODE: SILENT
+    AUTOCOMMIT: 1
+    PERSISTENT: false
+    DRIVER_NAME: "mysql"
+    SERVER_INFO: "Uptime: 65345  Threads: 9  Questions: 10631  Slow queries: 0  Opens: 194  Flush tables: 1  Open tables: 178  Queries per second avg: 0.162"
+    ORACLE_NULLS: NATURAL
+    CLIENT_VERSION: "mysqlnd 5.0.12-dev - 20150407 - $Id: 3591daad22de08524295e1bd073aceeff11e6579 $"
+    SERVER_VERSION: "5.5.5-10.3.22-MariaDB-1:10.3.22+maria~bionic"
+    STATEMENT_CLASS: array:1 [▼
+      0 => "PDOStatement"
+    ]
+    EMULATE_PREPARES: 1
+    CONNECTION_STATUS: "Localhost via UNIX socket"
+    DEFAULT_FETCH_MODE: BOTH
+  }
+}
