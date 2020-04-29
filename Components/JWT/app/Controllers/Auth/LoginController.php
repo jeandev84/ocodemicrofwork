@@ -51,7 +51,16 @@ class LoginController extends Controller
              return $response->withStatus(401);
          }
 
-
+         /* dump($token);
+           array:6 [
+              "sub" => 1
+              "iss" => "http://localhost:8000/auth/login"
+              "iat" => 1588178146
+              "nbf" => 1588178146
+              "jti" => "726b5a514c4d4d7663707a38756c4e4b3170755073515264413461416d656b43"
+              "exp" => 1588178746
+           ]
+         */
          return $response->withJson([
              'token' => $token
          ]);
@@ -61,6 +70,17 @@ class LoginController extends Controller
 {
     "token": {
         "sub": 1
+    }
+}
+
+{
+    "token": {
+        "sub": 1,
+        "iss": "http://localhost:8000/auth/login",
+        "iat": 1588177988,
+        "nbf": 1588177988,
+        "jti": "667178534b5a3972506875514a44446f556c386853786249784a4759744c5677",
+        "exp": 1588178588
     }
 }
 */
