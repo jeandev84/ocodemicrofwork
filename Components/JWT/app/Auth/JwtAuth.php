@@ -2,6 +2,9 @@
 namespace App\Auth;
 
 
+use App\Models\User;
+
+
 /**
  * Class JwtAuth
  * @package App\Auth
@@ -14,9 +17,22 @@ class JwtAuth
      /**
       * @param $username
       * @param $password
+      * @return |null
      */
      public function attempt($username, $password)
      {
-         return 'abcdef';
+         /* dump(User::where('email', $username)->first()); */
+
+         if(! $user = User::where('email', $username)->first())
+         {
+              return null;
+         }
+
+         if(! password_verify($password, $user->password))
+         {
+             return null;
+         }
+
+         return 'works';
      }
 }

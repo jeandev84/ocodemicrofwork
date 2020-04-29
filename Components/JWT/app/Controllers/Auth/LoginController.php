@@ -37,10 +37,16 @@ class LoginController extends Controller
      * @param Request $request
      * @param Response $response
      * @return Response
+     *
+     * username : jeanyao@ymail.com
+     * password : secret123
     */
     public function index(Request $request, Response $response)
     {
-         if(! $token = $this->auth->attempt('jean@ymail.com', 'secret123'))
+         $email = $request->getParam('email');
+         $password = $request->getParam('password');
+
+         if(! $token = $this->auth->attempt($email, $password))
          {
              return $response->withStatus(401);
          }
