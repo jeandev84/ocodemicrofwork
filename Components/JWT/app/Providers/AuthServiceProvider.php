@@ -3,7 +3,9 @@ namespace App\Providers;
 
 
 use App\Auth\JwtAuth;
+use App\Auth\Providers\Auth\EloquentProvider;
 use League\Container\ServiceProvider\AbstractServiceProvider;
+
 
 /**
  * Class AuthServiceProvider
@@ -22,7 +24,10 @@ class AuthServiceProvider extends AbstractServiceProvider
         $container = $this->getContainer();
 
         $container->share(JwtAuth::class, function () {
-            return new JwtAuth();
+
+            $authProvider = new EloquentProvider();
+
+            return new JwtAuth($authProvider);
         });
     }
 }

@@ -2,6 +2,7 @@
 namespace App\Auth;
 
 
+use App\Auth\Providers\Auth\AuthServiceProvider;
 use App\Models\User;
 
 
@@ -13,25 +14,42 @@ use App\Models\User;
  */
 class JwtAuth
 {
+    /**
+     * @var AuthServiceProvider
+    */
+    protected $auth;
 
-     /**
+    /**
+     * JwtAuth constructor.
+     * @param AuthServiceProvider $auth [ Eloquent Auth provider, authentification by database ]
+     */
+    public function __construct(AuthServiceProvider $auth)
+    {
+        $this->auth = $auth;
+    }
+
+    /**
       * @param $username
       * @param $password
       * @return |null
      */
      public function attempt($username, $password)
      {
-         /* dump(User::where('email', $username)->first()); */
-
-         if(! $user = User::where('email', $username)->first())
+         // check user
+         if(! $user = $this->auth->byCredentials($username, $password))
          {
-              return null;
+             return false;
          }
 
-         if(! password_verify($password, $user->password))
-         {
-             return null;
-         }
+         return 'newToken';
+
+         // build jwt claims
+
+         // subject user id
+
+         // encode user id
+
+         // return this encoded
 
          return 'works';
      }
