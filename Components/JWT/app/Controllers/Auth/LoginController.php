@@ -40,6 +40,8 @@ class LoginController extends Controller
      *
      * username : jeanyao@ymail.com
      * password : secret123
+     *
+     * http://localhost:8000/auth/login
     */
     public function index(Request $request, Response $response)
     {

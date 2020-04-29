@@ -67,7 +67,13 @@ class JwtAuth
      }
 
 
-    /**
+     public function authenticate()
+     {
+         return 'works';
+     }
+
+
+     /**
       * Start the builder of payload
       *
       *  @param JwtSubjectInterface $subject
