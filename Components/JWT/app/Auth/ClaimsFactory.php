@@ -59,8 +59,8 @@ class ClaimsFactory
      public function iss()
      {
          // 'http://localhost:8000/auth/login';
-         // return $this->request->getUri()->getPath();
-         return (string) $this->request->getUri();
+         return $this->request->getUri()->getPath();
+         // return (string) $this->request->getUri();
      }
 
      /**

@@ -8,10 +8,17 @@ namespace App\Auth\Providers\Auth;
 */
 interface AuthProviderInterface
 {
-     /**
-       * @param $username
-       * @param $password
-       * @return mixed
-     */
+      /**
+        * @param $username
+        * @param $password
+        * @return mixed
+      */
       public function byCredentials($username, $password);
+
+
+      /**
+       * @param $id
+       * @return mixed
+      */
+      public function byId($id);
 }

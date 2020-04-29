@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Auth\ClaimsFactory;
 use App\Auth\Factory;
 use App\Auth\JwtAuth;
+use App\Auth\Parser;
 use App\Auth\Providers\Auth\EloquentProvider;
 use App\Auth\Providers\Jwt\FirebaseProvider;
 use League\Container\ServiceProvider\AbstractServiceProvider;
@@ -38,7 +39,9 @@ class AuthServiceProvider extends AbstractServiceProvider
             $jwtProvider = new FirebaseProvider($container->get('settings'));
             $factory = new Factory($claimsFactory, $jwtProvider );
 
-            return new JwtAuth($authProvider, $factory);
+            $parser = new Parser($jwtProvider);
+
+            return new JwtAuth($authProvider, $factory, $parser);
         });
     }
 }

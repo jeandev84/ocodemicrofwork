@@ -41,10 +41,12 @@ class EloquentProvider implements AuthProviderInterface
 
 
     /**
+     * Authenticate by Id
      * @param $id
+     * @return
     */
     public function byId($id)
     {
-        // TODO: Implement byId() method.
+        return User::find($id);
     }
 }

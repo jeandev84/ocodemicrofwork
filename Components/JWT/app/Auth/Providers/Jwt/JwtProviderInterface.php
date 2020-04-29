@@ -13,4 +13,11 @@ interface JwtProviderInterface
      * @return mixed
     */
     public function encode(array $claims);
+
+
+    /**
+     * @param string $token
+     * @return mixed
+     */
+    public function decode($token);
 }

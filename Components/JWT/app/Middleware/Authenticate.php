@@ -44,17 +44,17 @@ class Authenticate
           // Bearer xxxx (Bearer + token)
           try {
 
+               // Trying to authenticate
                $auth = $this->auth->authenticate($header);
 
           }catch (Exception $e) {
 
-              // todo give specific message
-              return $response->withStatus(401);
+              // give specific message
+              return $response->withJson([
+                  'message' => $e->getMessage()
+              ],401);
           }
 
-
-          dump($auth);
-          die;
 
           return $next($request, $response);
      }
@@ -74,3 +74,32 @@ class Authenticate
           return $header;
      }
 }
+
+/*
+Decoded message
+where iss is URI
+{#80
+  +"sub": 1
+  +"iss": "http://localhost:8000/auth/login?email=jeanyao@ymail.com&password=secret123"
+  +"iat": 1588192336
+  +"nbf": 1588192336
+  +"jti": "334979355570536d3867416b376d526a6273716d345932437842535379427945"
+  +"exp": 1588192396
+}
+
+Decoded token where isss is PATH from URI
+{#80
+  +"sub": 1
+  +"iss": "/auth/login"
+  +"iat": 1588192731
+  +"nbf": 1588192731
+  +"jti": "727a64666f65326c5649316c3655356c424a4a335631385a65476e646b794d57"
+  +"exp": 1588192791
+}
+
+
+If Token expired will be show next message from Authenticate Middleware
+{
+    "message": "Expired token"
+}
+*/

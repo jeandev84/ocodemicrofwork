@@ -12,6 +12,15 @@ class User extends Model implements JwtSubjectInterface
 {
 
     /**
+     * Columns you to hide
+     * @var string[]
+    */
+    protected $hidden = [
+        'password'
+    ];
+
+
+    /**
      * Check the primary key User
      *
      * @return int|mixed

@@ -27,13 +27,23 @@ class FirebaseProvider implements JwtProviderInterface
         $this->settings = $settings;
     }
 
+
+    /**
+     * @param array $claims
+     * @return mixed|string
+    */
     public function encode(array $claims)
     {
         return JWT::encode($claims, $this->settings->get('jwt.secret'), 'HS256');
     }
 
+
+    /**
+     * @param string $token
+     * @return object
+     */
     public function decode($token)
     {
-        // TODO: Implement decode() method.
+        return JWT::decode($token, $this->settings->get('jwt.secret'), ['HS256']);
     }
 }
