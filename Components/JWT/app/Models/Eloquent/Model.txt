@@ -1,0 +1,42 @@
+User {#89 ▼
+  #connection: "default"
+  #table: "users"
+  #primaryKey: "id"
+  #keyType: "int"
+  +incrementing: true
+  #with: []
+  #withCount: []
+  #perPage: 15
+  +exists: true
+  +wasRecentlyCreated: false
+  #attributes: array:5 [▼
+    "id" => 1
+    "email" => "jeanyao@ymail.com"
+    "password" => "$2y$10$SpGJscpvlKL.1.2Ws71XYOOznWzas7CvEYXe1VP3zH6hGw8360AQ."
+    "created_at" => "2020-04-29 13:21:35"
+    "updated_at" => null
+  ]
+  #original: array:5 [▼
+    "id" => 1
+    "email" => "jeanyao@ymail.com"
+    "password" => "$2y$10$SpGJscpvlKL.1.2Ws71XYOOznWzas7CvEYXe1VP3zH6hGw8360AQ."
+    "created_at" => "2020-04-29 13:21:35"
+    "updated_at" => null
+  ]
+  #changes: []
+  #casts: []
+  #dates: []
+  #dateFormat: null
+  #appends: []
+  #dispatchesEvents: []
+  #observables: []
+  #relations: []
+  #touches: []
+  +timestamps: true
+  #hidden: []
+  #visible: []
+  #fillable: []
+  #guarded: array:1 [▼
+    0 => "*"
+  ]
+}

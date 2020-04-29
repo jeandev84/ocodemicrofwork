@@ -1,0 +1,11 @@
+https://github.com/codecourse/slender
+
+git clone https://github.com/codecourse/slender.git
+
+For Slim 3
+composer create-project "codecourse/slender 1.0.2" projectname
+
+For Slim 4
+composer create-project "codecourse/slender 2.1.1" projectname
+
+http://www.slimframework.com/
