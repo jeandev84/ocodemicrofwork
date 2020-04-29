@@ -34,7 +34,8 @@ $container->get('settings')
           ->set('displayErrorDetails', true);
 
 $container->get('settings')->set('jwt', [
-    'expiry' => getenv('JWT_EXPIRY')
+    'expiry' => getenv('JWT_EXPIRY'),
+    'secret' => getenv('JWT_SECRET')
 ]);
 
 $container->get('settings')->set('db', [

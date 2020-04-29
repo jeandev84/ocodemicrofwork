@@ -3,6 +3,8 @@ namespace App\Auth;
 
 
 use Carbon\Carbon;
+use Firebase\JWT\JWT;
+use Slim\Settings;
 
 /**
  * Class Factory
@@ -19,13 +21,20 @@ class Factory
      protected $claimsFactory;
 
 
-     /**
-      * Factory constructor.
-      * @param ClaimsFactory $claimsFactory
+     /** @var Settings  */
+     protected $settings;
+
+
+
+    /**
+     * Factory constructor.
+     * @param ClaimsFactory $claimsFactory
+     * @param Settings $settings
      */
-     public function __construct(ClaimsFactory $claimsFactory)
+     public function __construct(ClaimsFactory $claimsFactory, Settings $settings)
      {
            $this->claimsFactory = $claimsFactory;
+           $this->settings = $settings;
      }
 
 
@@ -72,9 +81,38 @@ class Factory
      }
 
 
-     public function encode()
+     /**
+      * Encoding
+      * @param array $claims
+      * @return string
+      *
+      * JWT:
+      * https://github.com/firebase/php-jwt
+      * JWT::encode($claims, 'secret', 'algo-you-want-to-user')
+      *
+      * Give us something like this :
+      * {
+      *   "token": "
+      *     eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.
+      *     eyJzdWIiOjEsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4M
+      *     DAwXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU4ODE4MzcxNiwibm
+      *     JmIjoxNTg4MTgzNzE2LCJqdGkiOiI0ODQ0Njc1MjY1NGQ2MjU2NDc
+      *     0NDc0NDUzNjRhNjE0ODU1N2E2MzQyMzE0NDQ4NzM0Nz
+      *     U5NDczMzM4NTU3Mjc4IiwiZXhwIjoxNTg4MTgzNzc2fQ.
+      *     r5L02X_GrbV1mQ5-xwKM9om3oEznzYQiSbs9sM1-qhE"
+      * }
+      *
+      * Test this token to the :
+      *
+      * https://jwt.io Verify Toke JWT
+      *
+      * More secure password
+      *  https://www.grc.com/passwords.htm
+      *   ex: vF[JxOzys&`;W.vAXG=wrK%-C)s}.a7HqVBzU0{k@oExs#rVT7LoUWGK'ncU{+v
+      */
+     public function encode(array $claims)
      {
-
+         return JWT::encode($claims, $this->settings->get('jwt.secret'), 'HS256');
      }
 }
 

@@ -34,7 +34,7 @@ class AuthServiceProvider extends AbstractServiceProvider
                 $container->get('settings')
             );
 
-            $factory = new Factory($claimsFactory);
+            $factory = new Factory($claimsFactory, $container->get('settings'));
 
             return new JwtAuth($authProvider, $factory);
         });

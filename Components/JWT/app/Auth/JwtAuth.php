@@ -58,16 +58,11 @@ class JwtAuth
 
          /* dump($user->getJwtIdentifier()); */
 
-         return $this->fromSubject($user);
-
-
          // build jwt claims
-
          // subject user id
-
          // encode user id
-
          // return this encoded
+         return $this->fromSubject($user);
 
      }
 
@@ -88,8 +83,10 @@ class JwtAuth
      */
      protected function fromSubject(JwtSubjectInterface $subject)
      {
-          // make payload
-          return $this->makePayload($subject);
+          // make payload and encode
+          return $this->factory->encode(
+              $this->makePayload($subject)
+          );
      }
 
 
