@@ -25,11 +25,16 @@ class AuthServiceProvider extends AbstractServiceProvider
     {
         $container = $this->getContainer();
 
-        $container->share(JwtAuth::class, function () {
+        $container->share(JwtAuth::class, function () use ($container) {
 
             $authProvider = new EloquentProvider();
 
-            $factory = new Factory(new ClaimsFactory());
+            $claimsFactory = new ClaimsFactory(
+                $container->get('request'),
+                $container->get('settings')
+            );
+
+            $factory = new Factory($claimsFactory);
 
             return new JwtAuth($authProvider, $factory);
         });

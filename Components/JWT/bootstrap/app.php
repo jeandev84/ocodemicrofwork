@@ -33,6 +33,10 @@ $container = $app->getContainer();
 $container->get('settings')
           ->set('displayErrorDetails', true);
 
+$container->get('settings')->set('jwt', [
+    'expiry' => getenv('JWT_EXPIRY')
+]);
+
 $container->get('settings')->set('db', [
     'driver' => 'mysql', // pgsql
     'host'   => '127.0.0.1',

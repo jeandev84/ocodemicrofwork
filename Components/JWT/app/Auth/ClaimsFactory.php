@@ -2,7 +2,9 @@
 namespace App\Auth;
 
 
+use Psr\Http\Message\RequestInterface;
 use Carbon\Carbon;
+use Slim\Settings;
 
 /**
  * Class ClaimsFactory
@@ -20,8 +22,26 @@ class ClaimsFactory
          'exp'
      ];
 
+     /** @var RequestInterface  */
+     protected $request;
 
-     /**
+
+     /** @var Settings  */
+     protected $settings;
+
+
+    /**
+      * ClaimsFactory constructor.
+      * @param RequestInterface $request
+      * @param Settings $settings
+     */
+     public function __construct(RequestInterface $request, Settings $settings)
+     {
+         $this->request = $request;
+         $this->settings = $settings;
+     }
+
+    /**
       * @return array|string[]
      */
      public function getDefaultClaims()
@@ -38,7 +58,9 @@ class ClaimsFactory
      */
      public function iss()
      {
-         return 'http://localhost:8000/auth/login';
+         // 'http://localhost:8000/auth/login';
+         // return $this->request->getUri()->getPath();
+         return (string) $this->request->getUri();
      }
 
      /**
@@ -81,7 +103,10 @@ class ClaimsFactory
      */
      public function exp()
      {
-         return Carbon::now()->addMinutes(10)->getTimestamp();
+         // Carbon::now()->addMinutes(10)->getTimestamp();
+         return Carbon::now()->addMinutes(
+             $this->settings->get('jwt.expiry')
+         )->getTimestamp();
      }
 
 
