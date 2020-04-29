@@ -2,7 +2,6 @@
 namespace App\Auth;
 
 
-use App\Auth\Providers\Jwt\JwtProviderInterface;
 use Carbon\Carbon;
 use Firebase\JWT\JWT;
 use Slim\Settings;
@@ -22,20 +21,20 @@ class Factory
      protected $claimsFactory;
 
 
-     /** @var JwtProviderInterface  */
-     protected $jwtProvider;
+     /** @var Settings  */
+     protected $settings;
 
 
 
     /**
      * Factory constructor.
      * @param ClaimsFactory $claimsFactory
-     * @param JwtProviderInterface $jwtProvider
+     * @param Settings $settings
      */
-     public function __construct(ClaimsFactory $claimsFactory, JwtProviderInterface $jwtProvider)
+     public function __construct(ClaimsFactory $claimsFactory, Settings $settings)
      {
            $this->claimsFactory = $claimsFactory;
-           $this->jwtProvider = $jwtProvider;
+           $this->settings = $settings;
      }
 
 
@@ -113,7 +112,7 @@ class Factory
       */
      public function encode(array $claims)
      {
-         return $this->jwtProvider->encode($claims);
+         return JWT::encode($claims, $this->settings->get('jwt.secret'), 'HS256');
      }
 }
 

@@ -6,7 +6,7 @@ namespace App\Auth;
  * Class Factory
  * @package App\Auth
 */
-class Factory
+class Factory1
 {
 
      /** @var array */

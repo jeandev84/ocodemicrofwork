@@ -20,7 +20,7 @@ class JwtAuth
     protected $auth;
 
 
-    /** @var Factory  */
+    /** @var Factory1  */
     protected $factory;
 
 

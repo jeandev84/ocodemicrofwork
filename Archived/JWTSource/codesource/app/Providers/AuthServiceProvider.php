@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Auth\ClaimsFactory;
-use App\Auth\Factory;
+use App\Auth\Factory1;
 use App\Auth\JwtAuth;
 use App\Auth\Parser;
 use App\Auth\Providers\Auth\EloquentProvider;
@@ -30,7 +30,7 @@ class AuthServiceProvider extends AbstractServiceProvider
 
             $jwtProvider = new FirebaseProvider($container->get('settings'));
 
-            $factory = new Factory($claimsFactory, $jwtProvider);
+            $factory = new Factory1($claimsFactory, $jwtProvider);
 
             $parser = new Parser($jwtProvider);
 

@@ -3,7 +3,7 @@
 namespace App\Auth;
 
 use App\Auth\Contracts\JwtSubject;
-use App\Auth\Factory;
+use App\Auth\Factory1;
 use App\Auth\Parser;
 use App\Auth\Providers\Auth\AuthServiceProvider;
 
@@ -17,7 +17,7 @@ class JwtAuth
 
     protected $user = null;
 
-    public function __construct(AuthServiceProvider $auth, Factory $factory, Parser $parser)
+    public function __construct(AuthServiceProvider $auth, Factory1 $factory, Parser $parser)
     {
         $this->auth = $auth;
         $this->factory = $factory;
