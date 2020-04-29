@@ -45,6 +45,7 @@ $container->get('settings')->set('db', [
 ]);
 
 
+
 // Eloquent
 $capsule = new Illuminate\Database\Capsule\Manager();
 $capsule->addConnection($container->get('settings')->get('db'));
@@ -53,6 +54,8 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 
+# Register service providers
+$container->addServiceProvider(new \App\Providers\AuthServiceProvider());
 
 
 

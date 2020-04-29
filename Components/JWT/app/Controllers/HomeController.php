@@ -20,10 +20,7 @@ class HomeController extends Controller
      */
     public function index(Request $request, Response $response)
     {
-        $user = User::find(1);
-
-        dump($user);
-        die;
+        // $user = User::find(1);
 
         return $response->withJson(['works' => true]);
     }
