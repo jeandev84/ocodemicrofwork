@@ -51,8 +51,16 @@ class LoginController extends Controller
              return $response->withStatus(401);
          }
 
+
          return $response->withJson([
              'token' => $token
          ]);
     }
 }
+/*
+{
+    "token": {
+        "sub": 1
+    }
+}
+*/

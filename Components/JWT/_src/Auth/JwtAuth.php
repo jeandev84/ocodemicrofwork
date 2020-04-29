@@ -19,21 +19,15 @@ class JwtAuth
     */
     protected $auth;
 
-
-    /** @var Factory  */
-    protected $factory;
-
-
     /**
      * JwtAuth constructor.
-     * @param AuthProviderInterface $auth [ Eloquent Auth provider, authentification by database ]
-     * @param Factory $factory
+     * @param AuthProviderInterface $auth
      *
+     * [ Eloquent Auth provider, authentification by database ]
      */
-    public function __construct(AuthProviderInterface $auth, Factory $factory)
+    public function __construct(AuthProviderInterface $auth)
     {
         $this->auth = $auth;
-        $this->factory = $factory;
     }
 
     /**
@@ -102,9 +96,7 @@ class JwtAuth
      protected function makePayload(JwtSubjectInterface $subject)
      {
          // factory
-         $claims = $this->getClaimsForSubject($subject);
-
-         return  $this->factory->withClaims($claims)->make();
+         return $this->getClaimsForSubject($subject);
      }
 
 

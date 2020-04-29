@@ -2,7 +2,9 @@
 namespace App\Auth\Providers\Auth;
 
 
+use App\Auth\Providers\Auth\AuthProviderInterface;
 use App\Models\User;
+
 
 /**
  * Class EloquentProvider
@@ -10,7 +12,7 @@ use App\Models\User;
  *
  * Eloquent Auth Provider
 */
-class EloquentProvider implements AuthServiceProvider
+class EloquentProvider implements AuthProviderInterface
 {
 
 
