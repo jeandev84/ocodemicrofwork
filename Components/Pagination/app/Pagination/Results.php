@@ -41,15 +41,16 @@ class Results
      }
 
 
-     /**
-      * Render Html for pagination
+    /**
+     * Render Html for pagination
+     * @param array $extra
+     * @return string
      */
-     public function render()
+     public function render(array $extra = [])
      {
          // building up links
          // building html
 
-         return (new PlainRenderer($this->meta))
-                ->render();
+         return (new PlainRenderer($this->meta))->render($extra);
      }
 }

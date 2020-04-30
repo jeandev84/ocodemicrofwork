@@ -32,8 +32,15 @@ $users = $builder->paginate($_GET['page'] ?? 1, 2); // (1, 10) if you have more 
 
 // Give us list of all results
 // dump($users->get());
+foreach ($users->get() as $user)
+{
+    echo $user['id'] .': '. $user['email'].'<br>';
+}
 
 
-
-// Give us render html
-echo $users->render();
+// Pagination : Give us render html
+// resolution multi query ?page=2&order=desc&abc=def
+echo $users->render([
+   'order' => $_GET['order'],
+    'abc'  => $_GET['abc']
+]);

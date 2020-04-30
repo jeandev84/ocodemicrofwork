@@ -1,0 +1,7 @@
+INSERT INTO ocode_pagination.users (id, name, email, password, created_at, updated_at) VALUES (1, 'user1', 'user1@site.com', '$2y$10$KpxXi1eBeMXIBtsui1WPZOAt/04ftVej2ikep0sKwcv.T0ZXWguNC', '2020-04-30 03:49:32', null);
+INSERT INTO ocode_pagination.users (id, name, email, password, created_at, updated_at) VALUES (2, 'user2', 'user2@site.com', '$2y$10$KpxXi1eBeMXIBtsui1WPZOAt/04ftVej2ikep0sKwcv.T0ZXWguNC', '2020-04-30 03:35:50', '2020-04-30 03:49:32');
+INSERT INTO ocode_pagination.users (id, name, email, password, created_at, updated_at) VALUES (3, 'user3', 'user3@site.com', '$2y$10$KpxXi1eBeMXIBtsui1WPZOAt/04ftVej2ikep0sKwcv.T0ZXWguNC', '2020-04-30 03:47:30', null);
+INSERT INTO ocode_pagination.users (id, name, email, password, created_at, updated_at) VALUES (4, 'user4', 'user4@site.com', '$2y$10$KpxXi1eBeMXIBtsui1WPZOAt/04ftVej2ikep0sKwcv.T0ZXWguNC', '2020-04-30 03:47:30', null);
+INSERT INTO ocode_pagination.users (id, name, email, password, created_at, updated_at) VALUES (5, 'user5', 'user5@site.com', '$2y$10$KpxXi1eBeMXIBtsui1WPZOAt/04ftVej2ikep0sKwcv.T0ZXWguNC', '2020-04-30 03:47:30', null);
+INSERT INTO ocode_pagination.users (id, name, email, password, created_at, updated_at) VALUES (6, 'user6', 'user6@site.com', '$2y$10$KpxXi1eBeMXIBtsui1WPZOAt/04ftVej2ikep0sKwcv.T0ZXWguNC', '2020-04-30 03:47:30', '2020-04-30 03:50:07');
+INSERT INTO ocode_pagination.users (id, name, email, password, created_at, updated_at) VALUES (7, '7', '7@site.com', '$2y$10$KpxXi1eBeMXIBtsui1WPZOAt/04ftVej2ikep0sKwcv.T0ZXWguNC', '2020-04-30 03:47:30', '2020-04-30 03:50:07');

@@ -11,15 +11,17 @@ use App\Pagination\Meta;
 class PlainRenderer extends RendererAbstract
 {
 
-     /**
-      * Generate page you want
-      * 1 2 3 4 5 ..
-      * 28 29 30 31 32 ..100
-      * 98 99 100
-      *
-      * array_unique() permit to not duplicate record
+    /**
+     * Generate page you want
+     * 1 2 3 4 5 ..
+     * 28 29 30 31 32 ..100
+     * 98 99 100
+     *
+     * array_unique() permit to not duplicate record
+     * @param array $extra
+     * @return string
      */
-     public function render()
+     public function render(array $extra = [])
      {
           $iterator = $this->pages();
 
@@ -28,7 +30,7 @@ class PlainRenderer extends RendererAbstract
           if($iterator->hasPrevious())
           {
               $html .= '<li>
-                     <a href="'. $this->query($this->meta->page - 1) .'">Previous</a>
+                     <a href="'. $this->query($this->meta->page - 1, $extra) .'">Previous</a>
                   </li>';
           }
 
@@ -38,12 +40,12 @@ class PlainRenderer extends RendererAbstract
               if($iterator->isCurrentPage())
               {
                   $html .= '<li>
-                     <strong><a href="'. $this->query($page) .'">'. $page .'</a></strong>
+                     <strong><a href="'. $this->query($page, $extra) .'">'. $page .'</a></strong>
                   </li>';
 
               }else{
 
-                  $html .= '<li><a href="'. $this->query($page) .'">'. $page .'</a></li>';
+                  $html .= '<li><a href="'. $this->query($page, $extra) .'">'. $page .'</a></li>';
               }
 
           }
@@ -51,7 +53,7 @@ class PlainRenderer extends RendererAbstract
          if($iterator->hasNext())
          {
              $html .= '<li>
-                     <a href="'. $this->query($this->meta->page + 1) .'">Next</a>
+                     <a href="'. $this->query($this->meta->page + 1, $extra) .'">Next</a>
                   </li>';
          }
 
@@ -62,11 +64,16 @@ class PlainRenderer extends RendererAbstract
      }
 
 
-     /**
-      * @return string
+    /**
+     * @param $page
+     * @param array $extra
+     * @return string
+     *
+     * Update query
+     * dump(http_build_query($extra)); "order=desc&abc=def"
      */
-     protected function query($page)
+     protected function query($page, array $extra = [])
      {
-         return '?page='. $page;
+         return '?page='. $page . '&'. http_build_query($extra);
      }
 }
