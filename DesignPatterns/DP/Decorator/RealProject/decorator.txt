@@ -1,0 +1,2 @@
+Decorator pattern used
+you need to change basic code
