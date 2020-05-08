@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Error</title>
+    </head>
+    <body>
+        <h1>
+            <?= $e->getMessage() ?>
+        </h1>
+
+        <ul>
+            <li>
+                Code: <?= $e->getCode() ?>
+            </li>
+            <li>
+                File: <?= $e->getFile() ?>
+            </li>
+            <li>
+                Line: <?= $e->getLine() ?>
+            </li>
+        </ul>
+
+        <div>
+            <?php foreach ($e->getTrace() as $trace): ?>
+                <div>
+                    <?= $trace['file'] ?> on line <?= $trace['line'] ?> in <?= $trace['class'] ?> at function <?= $trace['function'] ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </body>
+</html>
