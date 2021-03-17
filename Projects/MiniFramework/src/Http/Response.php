@@ -63,6 +63,7 @@ class Response
 
     /**
      * @param $body
+     * @return Response
     */
     public function withJson($body)
     {

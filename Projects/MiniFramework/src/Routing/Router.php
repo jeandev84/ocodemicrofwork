@@ -50,7 +50,6 @@ class Router
    */
    public function getResponse()
    {
-
        if(! isset($this->routes[$this->path]))
        {
            throw new RouteNotFoundException(

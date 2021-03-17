@@ -72,4 +72,4 @@ class MiddlewareStack
 # first middleware (next = initial)
 # second middleware (next = first middleware)
 # ...
-# last middleware (next = (las - 1) middleware
+# last middleware (next = (last - 1) middleware

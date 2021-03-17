@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+
+require 'vendor/autoload.php';
+
+$db = new PDO('mysql:host=localhost;dbname=project', 'homestead', 'secret');
+$faker = Faker\Factory::create();
+
+$application = new Application();
+
+$application->add(new App\Commands\SayHelloCommand);
+$application->add(new App\Commands\SayGoodbyeCommand);
+$application->add(new App\Commands\UserSeederCommand($db, $faker));
+
+$application->run();
